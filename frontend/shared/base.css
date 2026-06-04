@@ -1,0 +1,409 @@
+:root {
+  --white: #ffffff;
+  --gray-light: #f4f2f5;
+  --gray: #b2acac;
+  --gray-mid: #949494;
+  --gray-dark: #827d7d;
+  --black: #000000;
+  --violet: #988db3;
+  --teal: #00a99d;
+
+  --shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  --shadow-strong: 0 12px 24px rgba(0, 0, 0, 0.12);
+  --radius: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--gray-light);
+  color: var(--black);
+  line-height: 1.5;
+}
+
+/* HEADER */
+
+.site-header {
+  background: var(--white);
+  border-bottom: 4px solid var(--teal);
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition:
+    padding 0.25s ease,
+    border-bottom-width 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  grid-template-areas:
+    "brand liceo title"
+    "nav nav nav";
+  align-items: center;
+  gap: 16px 20px;
+}
+
+.brand-link,
+.school-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.main-logo {
+  grid-area: brand;
+  height: 70px;
+  width: auto;
+  transition: height 0.25s ease;
+}
+
+.school-logo {
+  grid-area: liceo;
+  height: 62px;
+  width: auto;
+  opacity: 0.9;
+  transition:
+    height 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.title-block {
+  grid-area: title;
+}
+
+.title-block h1 {
+  font-size: 2rem;
+  letter-spacing: 1px;
+  transition: font-size 0.25s ease;
+}
+
+.title-block p {
+  color: var(--gray-dark);
+  font-size: 1rem;
+}
+
+/* NAV */
+
+.main-nav {
+  grid-area: nav;
+  background: var(--black);
+  display: flex;
+  gap: 20px;
+  padding: 14px 20px;
+  flex-wrap: wrap;
+  margin: 0 -20px -20px;
+  transition:
+    background 0.25s ease,
+    padding 0.25s ease,
+    margin 0.25s ease;
+}
+
+.main-nav a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.main-nav a:hover {
+  color: var(--teal);
+}
+
+/* HEADER COMPACTO */
+
+.site-header.compact {
+  padding: 8px 20px;
+  border-bottom-width: 3px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.site-header.compact .header-container {
+  grid-template-columns: auto auto 1fr;
+  grid-template-areas: "brand liceo nav";
+}
+
+.site-header.compact .main-logo {
+  height: 42px;
+}
+
+.site-header.compact .school-logo {
+  height: 38px;
+  opacity: 0.75;
+}
+
+.site-header.compact .title-block {
+  display: none;
+}
+
+.site-header.compact .main-nav {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  justify-content: flex-end;
+  align-items: center;
+  transition: none;
+}
+
+.site-header.compact .main-nav a {
+  color: var(--black);
+}
+
+.site-header.compact .main-nav a:hover {
+  color: var(--teal);
+}
+
+/* MAIN */
+
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--violet), var(--teal));
+  color: white;
+  padding: 40px;
+  border-radius: 18px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.hero h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  max-width: 760px;
+  font-size: 1.1rem;
+}
+
+.section-title {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  border-left: 6px solid var(--teal);
+  padding-left: 12px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 50px;
+}
+
+/* CARDS */
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  border-top: 5px solid var(--violet);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-strong);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.card p {
+  color: var(--gray-dark);
+  margin-bottom: 18px;
+}
+
+.card-algoritmos {
+  border-top-color: var(--teal);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(0, 169, 157, 0.08) 100%);
+}
+
+.card-programacion {
+  border-top-color: var(--violet);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(152, 141, 179, 0.14) 100%);
+}
+
+.card-robotica {
+  border-top-color: var(--gray-dark);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(130, 125, 125, 0.12) 100%);
+}
+
+/* BOTONES */
+
+.btn,
+button {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  background: var(--teal);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 1rem;
+}
+
+.btn:hover,
+button:hover {
+  background: var(--black);
+}
+
+button:disabled,
+.btn-disabled {
+  background: var(--gray);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+button:disabled:hover,
+.btn-disabled:hover {
+  background: var(--gray);
+}
+
+/* FORMULARIOS */
+
+.form-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border-top: 5px solid var(--teal);
+  margin-bottom: 30px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 2px solid var(--gray);
+  border-radius: 10px;
+  font-size: 1rem;
+  background: var(--white);
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--teal);
+}
+
+/* FOOTER */
+
+footer {
+  background: var(--black);
+  color: white;
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 50px;
+}
+
+footer small {
+  color: #cccccc;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 760px) {
+  .site-header {
+    padding: 16px;
+  }
+
+  .header-container {
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      "brand liceo"
+      "title title"
+      "nav nav";
+    align-items: center;
+  }
+
+  .main-logo {
+    height: 54px;
+  }
+
+  .school-logo {
+    height: 48px;
+  }
+
+  .title-block h1 {
+    font-size: 1.5rem;
+  }
+
+  .main-nav {
+    flex-direction: column;
+    gap: 12px;
+    width: calc(100% + 32px);
+    margin: 0 -16px -16px;
+    padding: 14px 16px;
+  }
+
+  .site-header.compact {
+    padding: 10px 16px;
+  }
+
+  .site-header.compact .header-container {
+    grid-template-columns: auto auto 1fr;
+    grid-template-areas: "brand liceo nav";
+  }
+
+  .site-header.compact .main-logo {
+    height: 36px;
+  }
+
+  .site-header.compact .school-logo {
+    height: 34px;
+  }
+
+  .site-header.compact .main-nav {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    font-size: 0.85rem;
+  }
+
+  .hero {
+    padding: 28px;
+  }
+
+  .hero h2 {
+    font-size: 1.55rem;
+  }
+}

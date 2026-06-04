@@ -1,0 +1,14 @@
+{
+  "name": "backend-profemacon-algoritmos",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "local": "vercel dev --listen 3000"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^54.7.1"
+  }
+}

@@ -1,0 +1,294 @@
+.mission-hero {
+  margin-bottom: 28px;
+}
+
+.layout-game {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) minmax(560px, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.help-text,
+.muted {
+  color: var(--gray-dark);
+}
+
+.status-message {
+  margin-top: 14px;
+  color: var(--gray-dark);
+  font-weight: bold;
+}
+
+.panel-juego {
+  border-top-color: var(--teal);
+}
+
+.is-hidden {
+  display: none;
+}
+
+.mission-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.timer-box {
+  background: var(--black);
+  color: var(--white);
+  font-size: 1.6rem;
+  font-weight: bold;
+  padding: 10px 16px;
+  border-radius: 12px;
+  min-width: 100px;
+  text-align: center;
+}
+
+.instructions-box {
+  background: rgba(0, 169, 157, 0.08);
+  border-left: 5px solid var(--teal);
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+}
+
+.game-container {
+  background: var(--gray-light);
+  border: 2px dashed var(--gray);
+  border-radius: 18px;
+  padding: 28px 18px;
+  margin-bottom: 18px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.botellas {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: clamp(8px, 2vw, 18px);
+  flex-wrap: nowrap;
+  min-height: 170px;
+  width: 100%;
+}
+
+.bottle {
+  width: clamp(46px, 8vw, 72px);
+  height: clamp(112px, 18vw, 155px);
+  background-image: url("assets/bottle.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: grab;
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease;
+  flex: 0 1 auto;
+}
+
+.bottle:hover {
+  transform: translateY(-4px);
+}
+
+.bottle:active {
+  cursor: grabbing;
+}
+
+.bottle.selected {
+  outline: 4px solid var(--teal);
+  outline-offset: 6px;
+  border-radius: 14px;
+}
+
+.rojo {
+  filter: hue-rotate(0deg) saturate(2);
+}
+
+.azul {
+  filter: hue-rotate(200deg) saturate(2);
+}
+
+.verde {
+  filter: hue-rotate(100deg) saturate(2);
+}
+
+.amarillo {
+  filter: hue-rotate(60deg) saturate(2);
+}
+
+.morado {
+  filter: hue-rotate(280deg) saturate(2);
+}
+
+.stats-row {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  color: var(--gray-dark);
+}
+
+.resultado {
+  margin-top: 18px;
+  font-weight: bold;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--gray-light);
+  min-height: 52px;
+}
+
+.resultado.ok {
+  background: rgba(0, 169, 157, 0.12);
+  border-left: 5px solid var(--teal);
+}
+
+.resultado.warn {
+  background: rgba(152, 141, 179, 0.16);
+  border-left: 5px solid var(--violet);
+}
+
+.btn-secondary {
+  background: var(--gray-dark);
+}
+
+.btn-secondary:hover {
+  background: var(--black);
+}
+
+@media (max-width: 950px) {
+  .layout-game {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-juego {
+    width: 100%;
+  }
+
+  .mission-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .botellas {
+    gap: clamp(6px, 2vw, 12px);
+  }
+
+  .bottle {
+    width: clamp(42px, 14vw, 58px);
+    height: clamp(102px, 32vw, 135px);
+  }
+}
+.layout-game.solo-juego {
+  display: block;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.layout-game.solo-juego .panel-juego {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.layout-game.solo-juego .mission-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.layout-game.solo-juego #nombreJugador {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1.1;
+  word-break: normal;
+}
+
+.layout-game.solo-juego .timer-box {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  padding: 12px 20px;
+}
+
+.layout-game.solo-juego .game-container {
+  padding: 34px 28px;
+}
+
+.layout-game.solo-juego .botellas {
+  min-height: 190px;
+}
+
+.layout-game.solo-juego .bottle {
+  width: clamp(58px, 8vw, 82px);
+  height: clamp(136px, 18vw, 176px);
+}
+
+.layout-game.solo-juego .stats-row {
+  font-size: 1.05rem;
+}
+
+.layout-game.solo-juego .button-row button {
+  font-size: 1rem;
+  padding: 11px 18px;
+}
+
+@media (max-width: 620px) {
+  .layout-game.solo-juego {
+    max-width: 100%;
+  }
+
+  .layout-game.solo-juego .mission-top {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .layout-game.solo-juego .timer-box {
+    justify-self: start;
+  }
+
+  .layout-game.solo-juego .game-container {
+    padding: 24px 10px;
+  }
+
+  .layout-game.solo-juego .bottle {
+    width: 42px;
+    height: 106px;
+  }
+}
+@media (max-width: 430px) {
+  main {
+    padding: 24px 12px;
+  }
+
+  .card,
+  .form-card {
+    padding: 18px;
+  }
+
+  .game-container {
+    padding: 22px 8px;
+  }
+
+  .botellas {
+    gap: 5px;
+  }
+
+  .bottle {
+    width: 42px;
+    height: 104px;
+  }
+
+  .button-row {
+    gap: 8px;
+  }
+
+  .button-row button {
+    padding: 9px 12px;
+    font-size: 0.92rem;
+  }
+
+  .timer-box {
+    font-size: 1.3rem;
+  }
+}
