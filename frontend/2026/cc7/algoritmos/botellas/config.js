@@ -1,4 +1,4 @@
 window.BOTELLAS_CONFIG = {
   juegoSlug: "botellas-algoritmos-01",
-  apiBaseUrl: "http://localhost:3000/api"
+  apiBaseUrl: "https://backend-actividades-liceo.vercel.app/api",
 };
