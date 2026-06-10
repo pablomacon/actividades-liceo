@@ -196,22 +196,52 @@ function manejarCambioEstudiante() {
    INGRESO
 ========================= */
 
-function entrarAlDesafio() {
+async function entrarAlDesafio() {
   if (!estudianteActual || !grupoActual) return;
 
-  nombreJugador.textContent = estudianteActual.nombre_completo;
-  grupoJugador.textContent = `Grupo: ${grupoActual.nombre}`;
+  btnEntrar.disabled = true;
+  estadoIngreso.textContent = "Consultando intentos disponibles...";
 
-  panelIngreso.classList.add("is-hidden");
-  panelJuego.classList.remove("is-hidden");
+  try {
+    const estado = await consultarEstadoIntento(estudianteActual.id);
 
-  const layoutGame = document.querySelector(".layout-game");
-  if (layoutGame) {
-    layoutGame.classList.add("solo-juego");
+    if (!estado.puede_jugar) {
+      estadoIngreso.textContent = estado.motivo;
+      btnEntrar.disabled = false;
+      return;
+    }
+
+    nombreJugador.textContent = estudianteActual.nombre_completo;
+    grupoJugador.textContent = `Grupo: ${grupoActual.nombre}`;
+
+    panelIngreso.classList.add("is-hidden");
+    panelJuego.classList.remove("is-hidden");
+
+    const layoutGame = document.querySelector(".layout-game");
+    if (layoutGame) {
+      layoutGame.classList.add("solo-juego");
+    }
+
+    resultado.className = "resultado";
+    resultado.textContent = `Cuando estés pronto/a, presioná Iniciar juego. Intentos usados: ${estado.intentos_realizados} de ${estado.max_intentos}. Te quedan ${estado.intentos_restantes}.`;
+  } catch (error) {
+    console.error(error);
+    estadoIngreso.textContent =
+      "No se pudo consultar si tenés intentos disponibles. Avisá al docente.";
+    btnEntrar.disabled = false;
+  }
+}
+
+async function consultarEstadoIntento(estudianteId) {
+  const url = `${CONFIG.apiBaseUrl}/estado-intento?juego_slug=${encodeURIComponent(CONFIG.juegoSlug)}&estudiante_id=${encodeURIComponent(estudianteId)}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error("No se pudo consultar el estado del intento.");
   }
 
-  resultado.className = "resultado";
-  resultado.textContent = "Cuando estés pronto/a, presioná Iniciar juego.";
+  return await response.json();
 }
 
 /* =========================
@@ -533,13 +563,24 @@ async function guardarIntento() {
       body: JSON.stringify(payload),
     });
 
-    if (!response.ok) throw new Error("No se pudo guardar el intento.");
+    if (!response.ok) {
+      let mensaje = "No se pudo guardar el intento.";
 
-    resultado.textContent += " El intento quedó guardado.";
+      try {
+        const errorData = await response.json();
+        if (errorData.error) mensaje = errorData.error;
+      } catch (_) {
+        // Si el backend no responde JSON, mantenemos el mensaje genérico.
+      }
+
+      throw new Error(mensaje);
+    }
+
+    const data = await response.json();
+    resultado.textContent += ` El intento quedó guardado. Intentos usados: ${data.intentos_realizados} de ${data.max_intentos}.`;
   } catch (error) {
     console.error(error);
-    resultado.textContent +=
-      " Atención: el juego terminó, pero no se pudo guardar el intento.";
+    resultado.textContent += ` Atención: ${error.message}`;
   }
 }
 

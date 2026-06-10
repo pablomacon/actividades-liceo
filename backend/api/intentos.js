@@ -34,28 +34,53 @@ export default async function handler(req, res) {
 
   try {
     const juegos = await sql`
-      SELECT id
+      SELECT
+        id,
+        slug,
+        titulo,
+        activo,
+        COALESCE(max_intentos_por_estudiante, 1) AS max_intentos_por_estudiante,
+        mensaje_inactivo
       FROM juegos
       WHERE slug = ${juego_slug}
-        AND activo = TRUE
       LIMIT 1;
     `;
 
     if (juegos.length === 0) {
-      return sendError(res, 404, "Juego no encontrado o inactivo");
+      return sendError(res, 404, "Juego no encontrado");
     }
 
-    const juegoId = juegos[0].id;
+    const juego = juegos[0];
+    const juegoId = juego.id;
+    const maxIntentos = Number(juego.max_intentos_por_estudiante ?? 1);
 
-    const numeroIntentoRows = await sql`
-      SELECT COUNT(*)::int + 1 AS numero_intento
+    if (!juego.activo) {
+      return sendError(
+        res,
+        403,
+        juego.mensaje_inactivo ||
+          "Esta actividad no está disponible en este momento.",
+      );
+    }
+
+    const intentosRows = await sql`
+      SELECT COUNT(*)::int AS total
       FROM intentos_juego
       WHERE juego_id = ${juegoId}
-        AND estudiante_id = ${Number(estudiante_id)}
-        AND grupo_id = ${Number(grupo_id)};
+        AND estudiante_id = ${Number(estudiante_id)};
     `;
 
-    const numeroIntento = numeroIntentoRows[0].numero_intento;
+    const intentosRealizados = Number(intentosRows[0]?.total ?? 0);
+
+    if (intentosRealizados >= maxIntentos) {
+      return sendError(
+        res,
+        403,
+        `Ya realizaste los ${maxIntentos} intentos disponibles para esta actividad.`,
+      );
+    }
+
+    const numeroIntento = intentosRealizados + 1;
 
     const inserted = await sql`
       INSERT INTO intentos_juego (
@@ -86,10 +111,13 @@ export default async function handler(req, res) {
     return res.status(201).json({
       ok: true,
       intento: inserted[0],
+      intentos_realizados: numeroIntento,
+      max_intentos: maxIntentos,
+      intentos_restantes: Math.max(maxIntentos - numeroIntento, 0),
     });
   } catch (error) {
     console.error("Error en /api/intentos:", error);
 
-    return sendError(res, 500, "Error al guardar intento", error.message);
+    return sendError(res, 500, "Error al guardar intento");
   }
 }
