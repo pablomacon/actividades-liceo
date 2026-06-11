@@ -1,0 +1,21 @@
+
+
+.card-disabled {
+  opacity: 0.68;
+}
+
+.card-disabled h3 {
+  color: var(--gray-dark);
+}
+
+.estado-juego {
+  margin-top: 12px;
+  font-weight: bold;
+  color: var(--gray-dark);
+}
+
+.btn-disabled {
+  background: var(--gray-dark) !important;
+  cursor: not-allowed;
+  pointer-events: none;
+}
