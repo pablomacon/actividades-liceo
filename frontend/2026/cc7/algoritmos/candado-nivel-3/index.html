@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Misión 4: Candado nivel 3</title>
+
+    <link rel="stylesheet" href="../../../../shared/base.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header class="site-header" id="siteHeader">
+      <div class="header-container">
+        <a
+          href="../../../../index.html"
+          class="brand-link"
+          aria-label="Inicio Profemacón Algoritmos"
+        >
+          <img
+            src="../../../../assets/logo-profe-macon.png"
+            alt="Profe Macón"
+            class="main-logo"
+          />
+        </a>
+
+        <span class="school-link" aria-label="Liceo 29 Alicia Goyena">
+          <img
+            src="../../../../assets/logo-liceo-29.png"
+            alt="Liceo 29 Alicia Goyena"
+            class="school-logo"
+          />
+        </span>
+
+        <div class="title-block">
+          <h1>ALGORITMOS</h1>
+          <p>Misión 4: candado nivel 3</p>
+        </div>
+
+        <nav class="main-nav" aria-label="Navegación principal">
+          <a href="../../../../index.html">Inicio</a>
+          <a href="../../../../index.html#algoritmos">Algoritmos</a>
+          <a href="../../../../index.html#bloques">Bloques</a>
+          <a href="../../../../index.html#microbit">Micro:bit</a>
+          <a href="../../../../docente/index.html">Docentes</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero mission-hero">
+        <h2>Misión 4: Candado nivel 3</h2>
+        <p>
+          Este candado tiene 5 cifras y no da pistas. Solo se abre si la
+          combinación es exactamente correcta. El desafío no es adivinar por
+          suerte: es pensar una estrategia ordenada de búsqueda.
+        </p>
+      </section>
+
+      <section class="layout-game">
+        <article class="form-card panel-ingreso" id="panelIngreso">
+          <h2 class="section-title">Ingreso al desafío</h2>
+
+          <p class="help-text">
+            Elegí tu grupo y luego tu nombre. No escribas tus datos:
+            seleccionalos de la lista.
+          </p>
+
+          <div class="form-row">
+            <label for="grupoSelect">Grupo</label>
+            <select id="grupoSelect">
+              <option value="">Cargando grupos...</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="estudianteSelect">Estudiante</label>
+            <select id="estudianteSelect" disabled>
+              <option value="">Primero elegí un grupo</option>
+            </select>
+          </div>
+
+          <button id="btnEntrar" disabled>Entrar al desafío</button>
+
+          <p class="status-message" id="estadoIngreso"></p>
+        </article>
+
+        <article class="card panel-juego is-hidden" id="panelJuego">
+          <div class="mission-top">
+            <div>
+              <h2 id="nombreJugador">Jugador/a</h2>
+              <p id="grupoJugador" class="muted"></p>
+            </div>
+
+            <div class="timer-box" id="cronometro">00:00</div>
+          </div>
+
+          <div class="instructions-box">
+            <strong>Regla:</strong> escribí un código de
+            <strong id="cantidadDigitosTexto">5</strong> dígitos y presioná
+            <strong>Aceptar</strong>. En esta misión no se repiten números y
+            <strong>no hay pistas</strong>: el candado solo informa si abrió o no.
+          </div>
+
+          <div class="strategy-box">
+            <strong>Pregunta clave:</strong> si hay más de 30 mil combinaciones
+            posibles, ¿qué estrategia usarías para que una computadora las pruebe
+            sin saltearse ninguna?
+          </div>
+
+          <div class="game-container">
+            <div class="lock-stage" id="lockStage">
+              <img
+                id="candadoImagen"
+                src="assets/candado-5-base.png"
+                alt="Candado cerrado"
+                class="lock-image"
+              />
+
+              <div class="lock-overlay digits-5" id="lockOverlay">
+                <div
+                  class="digit-row"
+                  id="digitRow"
+                  aria-label="Código del candado"
+                >
+                  <input class="digit-input" maxlength="1" inputmode="numeric" autocomplete="off" disabled />
+                  <input class="digit-input" maxlength="1" inputmode="numeric" autocomplete="off" disabled />
+                  <input class="digit-input" maxlength="1" inputmode="numeric" autocomplete="off" disabled />
+                  <input class="digit-input" maxlength="1" inputmode="numeric" autocomplete="off" disabled />
+                  <input class="digit-input" maxlength="1" inputmode="numeric" autocomplete="off" disabled />
+                </div>
+
+                <button id="btnAceptar" class="accept-button" disabled>
+                  Aceptar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-row">
+            <span>Combinaciones probadas: <strong id="contadorIntentos">0</strong></span>
+            <span>Posibilidades sin repetir: <strong>30240</strong></span>
+          </div>
+
+          <div class="button-row">
+            <button id="btnIniciar">Iniciar juego</button>
+            <button id="btnReiniciar" class="btn-secondary" disabled>
+              Reiniciar
+            </button>
+          </div>
+
+          <div id="resultado" class="resultado" aria-live="polite"></div>
+
+          <section class="historial-card">
+            <h3>Historial</h3>
+
+            <div class="table-wrapper">
+              <table class="attempt-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Código probado</th>
+                    <th>Resultado</th>
+                  </tr>
+                </thead>
+                <tbody id="historialBody">
+                  <tr>
+                    <td colspan="3">Todavía no hay combinaciones probadas.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>Profemacón Algoritmos</p>
+      <small>Explora, aprende, crea.</small>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="../../../../shared/header.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
