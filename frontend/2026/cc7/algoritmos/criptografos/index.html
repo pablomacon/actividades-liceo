@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Misión 7: Criptógrafos</title>
+
+    <link rel="stylesheet" href="../../../../shared/base.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header class="site-header" id="siteHeader">
+      <div class="header-container">
+        <a
+          href="../../../../index.html"
+          class="brand-link"
+          aria-label="Inicio Profemacón Algoritmos"
+        >
+          <img
+            src="../../../../assets/logo-profe-macon.png"
+            alt="Profe Macón"
+            class="main-logo"
+          />
+        </a>
+
+        <span class="school-link" aria-label="Liceo 29 Alicia Goyena">
+          <img
+            src="../../../../assets/logo-liceo-29.png"
+            alt="Liceo 29 Alicia Goyena"
+            class="school-logo"
+          />
+        </span>
+
+        <div class="title-block">
+          <h1>ALGORITMOS</h1>
+          <p>Misión 7: Criptógrafos</p>
+        </div>
+
+        <nav class="main-nav" aria-label="Navegación principal">
+          <a href="../../../../index.html">Inicio</a>
+          <a href="../../../../index.html#algoritmos">Algoritmos</a>
+          <a href="../../../../index.html#bloques">Bloques</a>
+          <a href="../../../../index.html#microbit">Micro:bit</a>
+          <a href="../../../../docente/index.html">Docentes</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero mission-hero">
+        <h2>Misión 7: Criptógrafos</h2>
+        <p>
+          Enviá un mensaje cifrado desde Montevideo hasta Rivera. Cada conexión del grafo tiene un costo de interferencia distinto en cada partida. El desafío es comparar valores, no memorizar un camino fijo.
+        </p>
+      </section>
+
+      <section class="layout-game">
+        <article class="form-card panel-ingreso" id="panelIngreso">
+          <h2 class="section-title">Ingreso al desafío</h2>
+
+          <p class="help-text">
+            Elegí tu grupo y luego tu nombre. No escribas tus datos:
+            seleccionalos de la lista.
+          </p>
+
+          <div class="form-row">
+            <label for="grupoSelect">Grupo</label>
+            <select id="grupoSelect">
+              <option value="">Cargando grupos...</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="estudianteSelect">Estudiante</label>
+            <select id="estudianteSelect" disabled>
+              <option value="">Primero elegí un grupo</option>
+            </select>
+          </div>
+
+          <button id="btnEntrar" disabled>Entrar al desafío</button>
+
+          <p class="status-message" id="estadoIngreso"></p>
+        </article>
+
+        <article class="card panel-juego is-hidden" id="panelJuego">
+          <div class="mission-top">
+            <div>
+              <h2 id="nombreJugador">Jugador/a</h2>
+              <p id="grupoJugador" class="muted"></p>
+            </div>
+
+            <div class="timer-box" id="cronometro">00:00</div>
+          </div>
+
+          <div class="instructions-box">
+            <strong>Regla:</strong> empezás en <strong>Montevideo</strong> y debés llegar a
+            <strong>Rivera</strong>. Solo podés avanzar por conexiones disponibles. Cada conexión suma
+            interferencia. Los costos cambian cada vez que iniciás una transmisión, así que no alcanza con memorizar un camino. Si el total supera <strong id="limiteTexto">15</strong>, el mensaje puede ser interceptado.
+          </div>
+
+          <div class="game-area">
+            <section class="map-card" aria-label="Mapa de ciudades y conexiones">
+              <div class="map-toolbar">
+                <span>Origen: <strong id="origenTexto">Montevideo</strong></span>
+                <span>Destino: <strong id="destinoTexto">Rivera</strong></span>
+              </div>
+              <p class="map-note">Grafo esquemático: cada ciudad es un nodo y cada línea es una conexión. Compará los costos antes de elegir: la ruta con menos saltos no siempre es la mejor.</p>
+
+              <div class="map-stage" id="mapStage">
+                <svg id="mapSvg" class="map-lines" viewBox="0 0 100 100" aria-hidden="true"></svg>
+                <div id="ciudadesLayer" class="ciudades-layer"></div>
+              </div>
+            </section>
+
+            <aside class="route-card">
+              <h3>Ruta del mensaje</h3>
+              <p class="muted">
+                Tocá una ciudad conectada con la ciudad actual. Las ciudades disponibles quedan resaltadas, pero la decisión importante está en el costo de cada conexión.
+              </p>
+
+              <div class="route-summary">
+                <span>Ciudad actual: <strong id="ciudadActualTexto">Montevideo</strong></span>
+                <span>Pasos: <strong id="contadorPasos">0</strong></span>
+                <span>Interferencia: <strong id="contadorCosto">0</strong></span>
+              </div>
+
+              <div class="route-path" id="rutaTexto">Montevideo</div>
+            </aside>
+          </div>
+
+          <div class="button-row">
+            <button id="btnIniciar">Iniciar transmisión</button>
+            <button id="btnDeshacer" class="btn-secondary" disabled>Deshacer último paso</button>
+            <button id="btnReiniciar" class="btn-secondary" disabled>Reiniciar</button>
+          </div>
+
+          <div id="resultado" class="resultado" aria-live="polite"></div>
+
+          <section class="historial-card">
+            <h3>Historial de saltos</h3>
+
+            <div class="table-wrapper">
+              <table class="attempt-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    <th>Interferencia</th>
+                  </tr>
+                </thead>
+                <tbody id="historialBody">
+                  <tr>
+                    <td colspan="4">Todavía no hay saltos.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>Profemacón Algoritmos</p>
+      <small>Explora, aprende, crea.</small>
+    </footer>
+
+    <script src="../../../../shared/header.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

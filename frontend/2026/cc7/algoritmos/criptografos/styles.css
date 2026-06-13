@@ -1,0 +1,427 @@
+.mission-hero {
+  margin-bottom: 28px;
+}
+
+.layout-game {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) minmax(560px, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.help-text,
+.muted {
+  color: var(--gray-dark);
+}
+
+.status-message {
+  margin-top: 14px;
+  color: var(--gray-dark);
+  font-weight: bold;
+}
+
+.panel-juego {
+  border-top-color: var(--teal);
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+.mission-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.timer-box {
+  background: var(--black);
+  color: var(--white);
+  font-size: 1.6rem;
+  font-weight: bold;
+  padding: 10px 16px;
+  border-radius: 12px;
+  min-width: 100px;
+  text-align: center;
+}
+
+.instructions-box {
+  background: rgba(0, 169, 157, 0.08);
+  border-left: 5px solid var(--teal);
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+}
+
+.game-area {
+  display: grid;
+  grid-template-columns: minmax(460px, 1fr) minmax(270px, 0.72fr);
+  gap: 18px;
+  align-items: stretch;
+  margin-bottom: 18px;
+}
+
+.map-card,
+.route-card,
+.historial-card {
+  background: var(--gray-light);
+  border-radius: 18px;
+  padding: 16px;
+  border: 1px solid rgba(178, 172, 172, 0.7);
+}
+
+.map-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+  color: var(--gray-dark);
+}
+.map-note {
+  margin: 8px 0 0;
+  color: var(--gray-dark);
+  font-size: 0.92rem;
+}
+
+
+.map-stage {
+  position: relative;
+  width: 100%;
+  min-height: 500px;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(0, 169, 157, 0.22), transparent 26%),
+    radial-gradient(circle at 80% 20%, rgba(152, 141, 179, 0.28), transparent 30%),
+    linear-gradient(135deg, #ffffff 0%, #f4f2f5 100%);
+  border: 2px dashed var(--gray);
+  overflow: hidden;
+}
+
+.map-stage::before {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border-radius: 16px;
+  background:
+    linear-gradient(90deg, rgba(178, 172, 172, 0.16) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(178, 172, 172, 0.16) 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events: none;
+}
+
+.map-lines,
+.ciudades-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.connection-line {
+  stroke: var(--gray-mid);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  opacity: 0.48;
+}
+
+.line-active {
+  stroke: var(--teal);
+  stroke-width: 3.4;
+  opacity: 1;
+}
+
+.connection-cost {
+  font-size: 4.2px;
+  font-weight: 900;
+  fill: var(--black);
+  paint-order: stroke;
+  stroke: var(--white);
+  stroke-width: 2.4px;
+  stroke-linejoin: round;
+}
+
+.city-btn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  min-width: 82px;
+  max-width: 108px;
+  min-height: 34px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 2px solid var(--black);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--black);
+  font-size: 0.82rem;
+  font-weight: bold;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+  z-index: 3;
+}
+
+.city-btn:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.city-start {
+  border-color: var(--teal);
+}
+
+.city-destination {
+  border-color: var(--violet);
+}
+
+.city-current {
+  background: var(--black);
+  color: var(--white);
+  opacity: 1 !important;
+  outline: 4px solid rgba(0, 169, 157, 0.32);
+}
+
+.city-available:not(:disabled) {
+  background: rgba(0, 169, 157, 0.14);
+  border-color: var(--teal);
+  opacity: 1;
+}
+
+.city-available:not(:disabled):hover {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.city-visited {
+  background: rgba(152, 141, 179, 0.18);
+}
+
+.route-card h3,
+.historial-card h3 {
+  margin-top: 0;
+}
+
+.route-summary {
+  display: grid;
+  gap: 9px;
+  margin: 16px 0;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--white);
+}
+
+.route-path {
+  background: var(--black);
+  color: var(--white);
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  line-height: 1.5;
+  min-height: 70px;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.btn-secondary {
+  background: var(--gray-dark);
+}
+
+.btn-secondary:hover {
+  background: var(--black);
+}
+
+.resultado {
+  margin-top: 18px;
+  font-weight: bold;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--gray-light);
+  min-height: 52px;
+}
+
+.resultado.ok {
+  background: rgba(0, 169, 157, 0.12);
+  border-left: 5px solid var(--teal);
+}
+
+.resultado.warn {
+  background: rgba(152, 141, 179, 0.16);
+  border-left: 5px solid var(--violet);
+}
+
+.resultado.error {
+  background: rgba(242, 153, 74, 0.16);
+  border-left: 5px solid #f2994a;
+}
+
+.historial-card {
+  margin-top: 22px;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.attempt-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  background: var(--white);
+}
+
+.attempt-table th,
+.attempt-table td {
+  padding: 10px 9px;
+  border-bottom: 1px solid var(--gray);
+  text-align: left;
+}
+
+.attempt-table th {
+  background: var(--black);
+  color: var(--white);
+}
+
+.attempt-table tbody tr:nth-child(even) {
+  background: rgba(178, 172, 172, 0.12);
+}
+
+.layout-game.solo-juego {
+  display: block;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1040px) {
+  .layout-game,
+  .game-area {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 680px) {
+  main {
+    padding: 24px 12px;
+  }
+
+  .card,
+  .form-card {
+    padding: 18px;
+  }
+
+  .map-stage {
+    min-height: 520px;
+  }
+
+  .city-btn {
+    min-width: 74px;
+    max-width: 94px;
+    font-size: 0.72rem;
+    padding: 5px 6px;
+  }
+}
+
+/* Ajuste de mapa: disposición inspirada en Uruguay, no red abstracta */
+.uruguay-outline {
+  fill: rgba(255, 255, 255, 0.58);
+  stroke: rgba(130, 125, 125, 0.58);
+  stroke-width: 0.7;
+  stroke-dasharray: 1.4 1.2;
+}
+
+.rio-line {
+  fill: none;
+  stroke: rgba(0, 169, 157, 0.32);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.connection-line {
+  stroke-width: 1.05;
+  opacity: 0.42;
+}
+
+.connection-cost {
+  font-size: 3.8px;
+  stroke-width: 2.8px;
+}
+
+.city-btn {
+  min-width: 76px;
+  max-width: 102px;
+  min-height: 31px;
+  font-size: 0.76rem;
+  padding: 5px 7px;
+}
+
+.map-stage {
+  min-height: 570px;
+}
+
+@media (max-width: 680px) {
+  .map-stage {
+    min-height: 600px;
+  }
+}
+
+/* Mapa final tipo grafo: filas claras, más caminos y menos cruces */
+.graph-guide-line {
+  stroke: rgba(178, 172, 172, 0.22);
+  stroke-width: 0.35;
+  stroke-dasharray: 1.2 1.2;
+}
+
+.graph-guide-vertical {
+  opacity: 0.55;
+}
+
+.map-stage {
+  min-height: 590px;
+}
+
+.connection-line {
+  stroke: rgba(130, 125, 125, 0.72);
+  stroke-width: 1.2;
+  opacity: 0.5;
+}
+
+.line-active {
+  stroke: var(--teal);
+  stroke-width: 3.2;
+  opacity: 1;
+}
+
+.connection-cost {
+  font-size: 4px;
+  font-weight: 900;
+  stroke-width: 3px;
+}
+
+.city-btn {
+  min-width: 86px;
+  max-width: 122px;
+  min-height: 32px;
+  font-size: 0.76rem;
+}
+
+@media (max-width: 680px) {
+  .map-stage {
+    min-height: 640px;
+  }
+
+  .city-btn {
+    min-width: 72px;
+    max-width: 90px;
+    font-size: 0.68rem;
+    padding: 5px 5px;
+  }
+}
