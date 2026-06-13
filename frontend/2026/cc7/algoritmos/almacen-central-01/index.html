@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Misión 6: El Almacén Central</title>
+    <link rel="stylesheet" href="../../../../shared/base.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header class="site-header" id="siteHeader">
+      <div class="header-container">
+        <a href="../../../../index.html" class="brand-link" aria-label="Inicio Profemacón Algoritmos">
+          <img src="../../../../assets/logo-profe-macon.png" alt="Profe Macón" class="main-logo" />
+        </a>
+
+        <span class="school-link" aria-label="Liceo 29 Alicia Goyena">
+          <img src="../../../../assets/logo-liceo-29.png" alt="Liceo 29 Alicia Goyena" class="school-logo" />
+        </span>
+
+        <div class="title-block">
+          <h1>ALGORITMOS</h1>
+          <p>Misión 6: El Almacén Central</p>
+        </div>
+
+        <nav class="main-nav" aria-label="Navegación principal">
+          <a href="../../../../index.html">Inicio</a>
+          <a href="../../../../index.html#algoritmos">Algoritmos</a>
+          <a href="../../../../index.html#bloques">Bloques</a>
+          <a href="../../../../index.html#microbit">Micro:bit</a>
+          <a href="../../../../docente/index.html">Docentes</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero mission-hero">
+        <h2>Misión 6: El Almacén Central</h2>
+        <p>
+          Encontrá un objeto en un almacén lleno de cajas. Primero buscás sin ayuda.
+          Después usás un índice para comparar cuántos pasos ahorra una buena organización.
+        </p>
+      </section>
+
+      <section class="layout-game">
+        <article class="form-card panel-ingreso" id="panelIngreso">
+          <h2 class="section-title">Ingreso al desafío</h2>
+          <p class="help-text">
+            Elegí tu grupo y luego tu nombre. No escribas tus datos: seleccionalos de la lista.
+          </p>
+
+          <div class="form-row">
+            <label for="grupoSelect">Grupo</label>
+            <select id="grupoSelect">
+              <option value="">Cargando grupos...</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="estudianteSelect">Estudiante</label>
+            <select id="estudianteSelect" disabled>
+              <option value="">Primero elegí un grupo</option>
+            </select>
+          </div>
+
+          <button id="btnEntrar" disabled>Entrar al desafío</button>
+          <p class="status-message" id="estadoIngreso"></p>
+        </article>
+
+        <article class="card panel-juego is-hidden" id="panelJuego">
+          <div class="mission-top">
+            <div>
+              <h2 id="nombreJugador">Jugador/a</h2>
+              <p id="grupoJugador" class="muted"></p>
+            </div>
+            <div class="timer-box" id="cronometro">00:00</div>
+          </div>
+
+          <div class="instructions-box">
+            <strong>Regla:</strong> buscá el objeto pedido. En la primera fase no tenés índice:
+            tenés que revisar cajas. En la segunda fase usás una lista ordenada que indica dónde está cada objeto.
+          </div>
+
+          <div class="target-box">
+            <span>Objeto buscado</span>
+            <strong id="objetivoTexto">---</strong>
+          </div>
+
+          <div class="fase-panel">
+            <div>
+              <span class="fase-label" id="faseTexto">Fase 1: almacén desordenado</span>
+              <p id="faseDescripcion" class="muted">
+                Abrí cajas hasta encontrar el objeto. Cada caja abierta cuenta como una revisión.
+              </p>
+            </div>
+            <button id="btnSiguienteFase" class="btn-secondary" disabled>Pasar a fase 2</button>
+          </div>
+
+          <section class="index-card is-hidden" id="indicePanel">
+            <h3>Índice del almacén</h3>
+            <p class="muted">Buscá el objeto alfabéticamente y mirá en qué caja está.</p>
+            <div id="indiceLista" class="indice-lista"></div>
+          </section>
+
+          <div id="cajasGrid" class="cajas-grid" aria-label="Cajas del almacén"></div>
+
+          <div class="stats-row">
+            <span>Revisiones fase 1: <strong id="revisionesFase1">0</strong></span>
+            <span>Revisiones fase 2: <strong id="revisionesFase2">0</strong></span>
+            <span>Ahorro: <strong id="ahorroTexto">---</strong></span>
+          </div>
+
+          <div class="button-row">
+            <button id="btnIniciar">Iniciar misión</button>
+            <button id="btnReiniciar" class="btn-secondary" disabled>Reiniciar</button>
+          </div>
+
+          <div id="resultado" class="resultado" aria-live="polite"></div>
+
+          <section class="historial-card">
+            <h3>Historial</h3>
+            <div class="table-wrapper">
+              <table class="attempt-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Fase</th>
+                    <th>Caja</th>
+                    <th>Contenido</th>
+                    <th>Resultado</th>
+                  </tr>
+                </thead>
+                <tbody id="historialBody">
+                  <tr><td colspan="5">Todavía no hay revisiones.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>Profemacón Algoritmos</p>
+      <small>Explora, aprende, crea.</small>
+    </footer>
+
+    <script src="../../../../shared/header.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

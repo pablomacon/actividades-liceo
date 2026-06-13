@@ -36,6 +36,14 @@ const actividadesAlgoritmos = [
       "Encontrá un barco perdido usando pistas de Este/Oeste y reduciendo el espacio de búsqueda.",
     url: "2026/cc7/algoritmos/radar-puerto/index.html",
   },
+
+  {
+    slug: "almacen-central-01",
+    titulo: "Misión 6: El Almacén Central",
+    descripcion:
+      "Compará buscar caja por caja con usar un índice para encontrar información más rápido.",
+    url: "2026/cc7/algoritmos/almacen-central/index.html",
+  },
   {
     slug: null,
     titulo: "Búsqueda y pistas",
