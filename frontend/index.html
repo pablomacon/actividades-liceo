@@ -59,62 +59,20 @@
       </section>
 
       <section id="algoritmos">
-        <h2 class="section-title">Algoritmos</h2>
+        <div class="section-header-row">
+          <div>
+            <h2 class="section-title">Algoritmos</h2>
+            <p class="section-note">
+              Primero se muestran las actividades habilitadas por el docente.
+            </p>
+          </div>
 
-        <div class="grid">
-          <article
-            class="card card-algoritmos"
-            data-juego-slug="botellas-algoritmos-01"
-          >
-            <h3>Misión 1: Ordenar botellas</h3>
-            <p>
-              Intercambiá botellas de lugar para encontrar el orden correcto
-              usando pistas.
-            </p>
-            <a class="btn" href="2026/cc7/algoritmos/botellas/index.html"
-              >Ingresar</a
-            >
-            <p class="estado-juego"></p>
-          </article>
-          <article
-            class="card card-algoritmos"
-            data-juego-slug="candado-numerico-01"
-          >
-            <h3>Misión 2: Candado numérico</h3>
-            <p>
-              Probá combinaciones, analizá las luces de pista y abrí el candado
-              usando descarte.
-            </p>
-            <a class="btn" href="2026/cc7/algoritmos/candado/index.html"
-              >Ingresar</a
-            >
-            <p class="estado-juego"></p>
-          </article>
-
-          <article
-            class="card card-algoritmos"
-            data-juego-slug="candado-nivel-2"
-          >
-            <h3>Misión 3: Candado nivel 2</h3>
-            <p>
-              Abrí un candado de 4 cifras usando solamente la cantidad de
-              posiciones correctas como pista.
-            </p>
-            <a class="btn" href="2026/cc7/algoritmos/candado-nivel-2/index.html"
-              >Ingresar</a
-            >
-            <p class="estado-juego"></p>
-          </article>
-
-          <article class="card card-algoritmos">
-            <h3>Búsqueda y pistas</h3>
-            <p>
-              Próximamente: nuevos desafíos para comparar estrategias, buscar
-              soluciones y mejorar paso a paso.
-            </p>
-            <span class="btn btn-disabled">Próximamente</span>
-          </article>
+          <button class="btn btn-secondary" id="toggleAlgoritmos" type="button">
+            Ver todas las actividades
+          </button>
         </div>
+
+        <div class="grid" id="algoritmosGrid" aria-live="polite"></div>
       </section>
 
       <section id="bloques">

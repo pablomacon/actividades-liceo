@@ -19,3 +19,45 @@
   cursor: not-allowed;
   pointer-events: none;
 }
+
+
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.section-header-row .section-title {
+  margin-bottom: 4px;
+}
+
+.section-note {
+  color: var(--gray-dark);
+  margin: 0;
+}
+
+.btn-secondary {
+  background: var(--gray-dark);
+}
+
+.btn-secondary:hover {
+  background: var(--black);
+}
+
+.full-width-card {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 760px) {
+  .section-header-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .section-header-row .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
