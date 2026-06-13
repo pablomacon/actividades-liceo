@@ -30,6 +30,13 @@ const actividadesAlgoritmos = [
     url: "2026/cc7/algoritmos/candado-nivel-3/index.html",
   },
   {
+    slug: "radar-puerto-01",
+    titulo: "Misión 5: El Radar del Puerto",
+    descripcion:
+      "Encontrá un barco perdido usando pistas de Este/Oeste y reduciendo el espacio de búsqueda.",
+    url: "2026/cc7/algoritmos/radar-puerto/index.html",
+  },
+  {
     slug: null,
     titulo: "Búsqueda y pistas",
     descripcion:
