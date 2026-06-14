@@ -44,6 +44,14 @@ const actividadesAlgoritmos = [
       "Compará buscar caja por caja con usar un índice para encontrar información más rápido.",
     url: "2026/cc7/algoritmos/almacen-central/index.html",
   },
+
+  {
+    slug: "criptografos-01",
+    titulo: "Misión 7: Criptógrafos",
+    descripcion:
+      "Encontrá una ruta para enviar un mensaje cifrado con la menor interferencia posible.",
+    url: "2026/cc7/algoritmos/criptografos/index.html",
+  },
   {
     slug: null,
     titulo: "Búsqueda y pistas",
