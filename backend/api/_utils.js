@@ -4,7 +4,7 @@ export function setCors(res) {
     process.env.ALLOWED_ORIGIN || "*",
   );
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 }
 
 export function handleOptions(req, res) {
