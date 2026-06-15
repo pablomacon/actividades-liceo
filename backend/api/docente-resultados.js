@@ -74,6 +74,44 @@ function normalizarLimite(valor) {
   return numero;
 }
 
+function calcularResumen(intentos) {
+  const estudiantesUnicos = new Set(
+    intentos.map((i) => String(i.estudiante_id)),
+  );
+  const completados = intentos.filter((i) => i.completado).length;
+  const noCompletados = intentos.length - completados;
+
+  const totalTiempo = intentos.reduce(
+    (acum, i) => acum + Number(i.tiempo_segundos ?? 0),
+    0,
+  );
+
+  const promedioTiempoSegundos =
+    intentos.length > 0 ? Math.round(totalTiempo / intentos.length) : 0;
+
+  const intentosPorEstudiante = new Map();
+
+  for (const intento of intentos) {
+    const id = String(intento.estudiante_id);
+    intentosPorEstudiante.set(id, (intentosPorEstudiante.get(id) || 0) + 1);
+  }
+
+  const promedioIntentosPorEstudiante =
+    estudiantesUnicos.size > 0
+      ? Number((intentos.length / estudiantesUnicos.size).toFixed(2))
+      : 0;
+
+  return {
+    total_intentos: intentos.length,
+    estudiantes_con_actividad: estudiantesUnicos.size,
+    completados,
+    no_completados: noCompletados,
+    promedio_tiempo_segundos: promedioTiempoSegundos,
+    promedio_tiempo: formatearTiempo(promedioTiempoSegundos),
+    promedio_intentos_por_estudiante: promedioIntentosPorEstudiante,
+  };
+}
+
 export default async function handler(req, res) {
   setCors(res);
   if (handleOptions(req, res)) return;
@@ -105,6 +143,36 @@ export default async function handler(req, res) {
     const juegoSlugFiltro = juego_slug || null;
     const anioLectivoFiltro = Number(anio_lectivo);
     const limiteFiltro = normalizarLimite(limite);
+
+    const grupos = await sql`
+      SELECT
+        id,
+        nombre,
+        anio_lectivo,
+        nivel
+      FROM grupos
+      WHERE anio_lectivo = ${anioLectivoFiltro}
+        AND activo = true
+      ORDER BY nombre;
+    `;
+
+    const juegos = await sql`
+      SELECT
+        id,
+        slug,
+        titulo,
+        categoria,
+        anio_lectivo,
+        nivel,
+        tipo_resultado,
+        activo,
+        visible_en_hub,
+        max_intentos_por_estudiante
+      FROM juegos
+      WHERE anio_lectivo = ${anioLectivoFiltro}
+        AND visible_en_hub = true
+      ORDER BY id;
+    `;
 
     const filas = await sql`
       SELECT
@@ -170,6 +238,8 @@ export default async function handler(req, res) {
       };
     });
 
+    const resumen = calcularResumen(intentos);
+
     return res.status(200).json({
       ok: true,
       usuario: {
@@ -184,6 +254,11 @@ export default async function handler(req, res) {
         anio_lectivo: anioLectivoFiltro,
         limite: limiteFiltro,
       },
+      opciones: {
+        grupos,
+        juegos,
+      },
+      resumen,
       total: intentos.length,
       intentos,
     });
