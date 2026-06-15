@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resultados | Panel docente</title>
+    <link rel="stylesheet" href="docente.css" />
+  </head>
+  <body>
+    <main class="panel-page">
+      <section class="panel" aria-labelledby="tituloPanel">
+        <div class="topbar">
+          <div>
+            <h1 id="tituloPanel">Panel docente de resultados</h1>
+            <p>
+              Primera versión protegida. Esta página verifica sesión, rol y cierre por inactividad.
+            </p>
+          </div>
+
+          <div class="user-box">
+            <p><strong>Usuario:</strong> <span id="nombreUsuario">Verificando...</span></p>
+            <p><strong>Rol:</strong> <span id="rolUsuario">—</span></p>
+            <button id="cerrarSesionBtn" class="btn btn-danger" type="button">Cerrar sesión</button>
+          </div>
+        </div>
+
+        <p id="estadoSesion" class="mensaje aviso" aria-live="polite">Verificando sesión...</p>
+
+        <div class="grid">
+          <article class="stat-card">
+            <h3>Resumen del grupo</h3>
+            <p>Próximo paso: filtros por grupo, actividad y año lectivo.</p>
+          </article>
+
+          <article class="stat-card">
+            <h3>Evidencias</h3>
+            <p>Luego mostraremos participación, intentos, mejora y señales pedagógicas.</p>
+          </article>
+
+          <article class="stat-card">
+            <h3>Exportación</h3>
+            <p>Queda previsto exportar CSV y copiar resumen para portafolio docente.</p>
+          </article>
+        </div>
+
+        <div class="note">
+          Esta pantalla todavía no consulta resultados de estudiantes. Primero confirma que la autenticación docente funciona en producción.
+        </div>
+      </section>
+    </main>
+
+    <script src="docente-auth.js"></script>
+    <script>
+      iniciarPanelProtegido();
+    </script>
+  </body>
+</html>
