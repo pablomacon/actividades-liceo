@@ -63,6 +63,56 @@
             <p id="totalResultados">0 registros encontrados</p>
           </div>
 
+          <form class="filtros-panel" id="filtrosResultados">
+            <label>
+              Grupo
+              <select id="filtroGrupo">
+                <option value="">Todos los grupos</option>
+              </select>
+            </label>
+
+            <label>
+              Actividad
+              <select id="filtroActividad">
+                <option value="">Todas las actividades</option>
+              </select>
+            </label>
+
+            <label>
+              Límite
+              <select id="filtroLimite">
+                <option value="50">50 registros</option>
+                <option value="100">100 registros</option>
+                <option value="200" selected>200 registros</option>
+                <option value="500">500 registros</option>
+              </select>
+            </label>
+
+            <button class="btn" type="submit">Actualizar</button>
+          </form>
+
+          <div class="resumen-grid">
+            <article class="resumen-card">
+              <span class="resumen-label">Intentos</span>
+              <strong id="resumenIntentos">—</strong>
+            </article>
+
+            <article class="resumen-card">
+              <span class="resumen-label">Estudiantes con actividad</span>
+              <strong id="resumenEstudiantes">—</strong>
+            </article>
+
+            <article class="resumen-card">
+              <span class="resumen-label">Completados</span>
+              <strong id="resumenCompletados">—</strong>
+            </article>
+
+            <article class="resumen-card">
+              <span class="resumen-label">Tiempo promedio</span>
+              <strong id="resumenTiempo">—</strong>
+            </article>
+          </div>
+
           <p id="estadoResultados" class="estado-ok">Preparando consulta...</p>
 
           <div class="tabla-contenedor">
