@@ -163,11 +163,17 @@ export default async function handler(req, res) {
       intentos,
     });
   } catch (error) {
-    console.error("Error en /api/docente-resultados:", error);
-    return sendError(
-      res,
-      401,
-      "Sesión inválida o error al consultar resultados.",
-    );
+    console.error("Error en /api/docente-resultados:", {
+      message: error.message,
+      code: error.code,
+      detail: error.detail,
+      stack: error.stack,
+    });
+
+    return res.status(500).json({
+      error: "Error al consultar resultados.",
+      detalle: error.message,
+      code: error.code || null,
+    });
   }
 }
