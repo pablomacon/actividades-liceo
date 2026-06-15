@@ -13,18 +13,26 @@
           <div>
             <h1 id="tituloPanel">Panel docente de resultados</h1>
             <p>
-              Primera versión protegida. Esta página verifica sesión, rol y cierre por inactividad.
+              Primera versión protegida. Esta página verifica sesión, rol y
+              cierre por inactividad.
             </p>
           </div>
 
           <div class="user-box">
-            <p><strong>Usuario:</strong> <span id="nombreUsuario">Verificando...</span></p>
+            <p>
+              <strong>Usuario:</strong>
+              <span id="nombreUsuario">Verificando...</span>
+            </p>
             <p><strong>Rol:</strong> <span id="rolUsuario">—</span></p>
-            <button id="cerrarSesionBtn" class="btn btn-danger" type="button">Cerrar sesión</button>
+            <button id="cerrarSesionBtn" class="btn btn-danger" type="button">
+              Cerrar sesión
+            </button>
           </div>
         </div>
 
-        <p id="estadoSesion" class="mensaje aviso" aria-live="polite">Verificando sesión...</p>
+        <p id="estadoSesion" class="mensaje aviso" aria-live="polite">
+          Verificando sesión...
+        </p>
 
         <div class="grid">
           <article class="stat-card">
@@ -34,22 +42,54 @@
 
           <article class="stat-card">
             <h3>Evidencias</h3>
-            <p>Luego mostraremos participación, intentos, mejora y señales pedagógicas.</p>
+            <p>
+              Luego mostraremos participación, intentos, mejora y señales
+              pedagógicas.
+            </p>
           </article>
 
           <article class="stat-card">
             <h3>Exportación</h3>
-            <p>Queda previsto exportar CSV y copiar resumen para portafolio docente.</p>
+            <p>
+              Queda previsto exportar CSV y copiar resumen para portafolio
+              docente.
+            </p>
           </article>
         </div>
 
-        <div class="note">
-          Esta pantalla todavía no consulta resultados de estudiantes. Primero confirma que la autenticación docente funciona en producción.
-        </div>
+        <section class="panel-section">
+          <div class="section-header">
+            <h2>Resultados registrados</h2>
+            <p id="totalResultados">0 registros encontrados</p>
+          </div>
+
+          <p id="estadoResultados" class="estado-ok">Preparando consulta...</p>
+
+          <div class="tabla-contenedor">
+            <table id="tablaResultados">
+              <thead>
+                <tr>
+                  <th>Grupo</th>
+                  <th>Estudiante</th>
+                  <th>Actividad</th>
+                  <th>Intento</th>
+                  <th>Métrica 1</th>
+                  <th>Métrica 2</th>
+                  <th>Tiempo</th>
+                  <th>Resultado</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <script src="./resultados.js"></script>
       </section>
     </main>
 
-    <script src="docente-auth.js"></script>
+    <script src="./docente-auth.js"></script>
+    <script src="./resultados.js"></script>
     <script>
       iniciarPanelProtegido();
     </script>
