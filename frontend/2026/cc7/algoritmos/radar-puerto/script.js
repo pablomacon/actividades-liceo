@@ -230,14 +230,16 @@ async function entrarAlDesafio() {
 }
 
 async function consultarEstadoIntento(estudianteId) {
-  const url = `${CONFIG.apiBaseUrl}/estado-intento?juego_slug=${CONFIG.juegoSlug}&estudiante_id=${estudianteId}`;
-  const respuesta = await fetch(url);
+  const url =
+    `${CONFIG.apiBaseUrl}/estado-intento` +
+    `?juego_slug=${CONFIG.juegoSlug}` +
+    `&estudiante_id=${estudianteId}` +
+    `&grupo_id=${grupoActual.id}`;
 
-  if (!respuesta.ok) {
+  const response = await fetch(url);
+  if (!response.ok)
     throw new Error("No se pudo consultar el estado del intento.");
-  }
-
-  return await respuesta.json();
+  return await response.json();
 }
 
 /* =========================
@@ -308,7 +310,11 @@ function escanearSector(sector) {
   if (sector === barcoSector) {
     respuestaRadar = "¡Barco encontrado!";
     button.classList.add("sector-found");
-    historial.push({ numero: totalEscaneos, sector, respuesta: respuestaRadar });
+    historial.push({
+      numero: totalEscaneos,
+      sector,
+      respuesta: respuestaRadar,
+    });
     renderHistorial();
     finalizarJuego(true);
     return;

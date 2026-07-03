@@ -1,0 +1,369 @@
+.mission-hero {
+  margin-bottom: 28px;
+}
+
+.layout-game {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) minmax(560px, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.help-text,
+.muted {
+  color: var(--gray-dark);
+}
+
+.status-message {
+  margin-top: 14px;
+  color: var(--gray-dark);
+  font-weight: bold;
+}
+
+.panel-juego {
+  border-top-color: var(--teal);
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+.mission-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.timer-box {
+  background: var(--black);
+  color: var(--white);
+  font-size: 1.6rem;
+  font-weight: bold;
+  padding: 10px 16px;
+  border-radius: 12px;
+  min-width: 100px;
+  text-align: center;
+}
+
+.instructions-box {
+  background: rgba(0, 169, 157, 0.08);
+  border-left: 5px solid var(--teal);
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+}
+
+.target-box {
+  background: var(--black);
+  color: var(--white);
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.target-box span {
+  color: var(--gray-light);
+}
+
+.target-box strong {
+  font-size: 1.55rem;
+  text-align: right;
+}
+
+.fase-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--gray-light);
+  margin-bottom: 18px;
+}
+
+.fase-label {
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.pistas-card,
+.sospechosos-card {
+  border: 1px solid var(--gray);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 18px;
+  background: rgba(152, 141, 179, 0.1);
+}
+
+.pistas-card h3,
+.sospechosos-card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.pistas-lista {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.pista-item {
+  background: var(--white);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-left: 5px solid var(--violet);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.pista-item strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.pista-item span {
+  display: block;
+  color: var(--gray-dark);
+  line-height: 1.35;
+}
+
+.pista-salvado {
+  border-left-color: var(--teal);
+  background: rgba(0, 169, 157, 0.08);
+}
+
+.pista-fuera {
+  border-left-color: #f2994a;
+  background: rgba(242, 153, 74, 0.12);
+}
+
+.personajes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  background: var(--gray-light);
+  border: 2px dashed var(--gray);
+  border-radius: 18px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.personaje-btn {
+  min-height: 112px;
+  border: 3px solid var(--gray-dark);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f7f7f7, #dedede);
+  color: var(--black);
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  padding: 10px;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.personaje-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.personaje-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.personaje-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--white);
+  border: 2px solid var(--gray);
+  font-size: 1.4rem;
+}
+
+.personaje-nombre {
+  font-size: 1rem;
+}
+
+.personaje-estado {
+  min-height: 18px;
+  font-size: 0.78rem;
+  color: var(--gray-dark);
+}
+
+.personaje-atacado {
+  border-color: #f2994a;
+  box-shadow:
+    0 0 0 4px rgba(242, 153, 74, 0.18),
+    0 5px 0 rgba(0, 0, 0, 0.18);
+}
+
+.personaje-protegido {
+  border-color: var(--teal);
+  box-shadow:
+    0 0 0 4px rgba(0, 169, 157, 0.18),
+    0 5px 0 rgba(0, 0, 0, 0.18);
+}
+
+.personaje-incorrecto {
+  border-color: var(--violet);
+  background: rgba(152, 141, 179, 0.18);
+}
+
+.personaje-acierto {
+  border-color: var(--teal);
+  background: rgba(0, 169, 157, 0.16);
+}
+
+.personaje-fuera {
+  opacity: 0.52;
+  filter: grayscale(1);
+  background: #eeeeee;
+  border-style: dashed;
+}
+
+.personaje-fuera .personaje-estado {
+  color: var(--black);
+  font-weight: bold;
+}
+
+.stats-row {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  color: var(--gray-dark);
+}
+
+.resultado {
+  margin-top: 18px;
+  font-weight: bold;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--gray-light);
+  min-height: 52px;
+}
+
+.resultado.ok {
+  background: rgba(0, 169, 157, 0.12);
+  border-left: 5px solid var(--teal);
+}
+
+.resultado.warn {
+  background: rgba(152, 141, 179, 0.16);
+  border-left: 5px solid var(--violet);
+}
+
+.resultado.error {
+  background: rgba(242, 153, 74, 0.16);
+  border-left: 5px solid #f2994a;
+}
+
+.btn-secondary {
+  background: var(--gray-dark);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--black);
+}
+
+.historial-card {
+  margin-top: 22px;
+}
+
+.historial-card h3 {
+  margin-bottom: 12px;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.attempt-table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+  background: var(--white);
+}
+
+.attempt-table th,
+.attempt-table td {
+  padding: 10px 9px;
+  border-bottom: 1px solid var(--gray);
+  text-align: left;
+  vertical-align: top;
+}
+
+.attempt-table th {
+  background: var(--black);
+  color: var(--white);
+}
+
+.attempt-table tbody tr:nth-child(even) {
+  background: rgba(178, 172, 172, 0.12);
+}
+
+.layout-game.solo-juego {
+  display: block;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.layout-game.solo-juego .panel-juego {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (max-width: 950px) {
+  .layout-game {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-top,
+  .fase-panel,
+  .target-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 620px) {
+  main {
+    padding: 24px 12px;
+  }
+
+  .card,
+  .form-card {
+    padding: 18px;
+  }
+
+  .personajes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .personaje-btn {
+    min-height: 104px;
+  }
+
+  .target-box strong {
+    font-size: 1.35rem;
+  }
+}

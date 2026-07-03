@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Misión 8: Detective de patrones</title>
+    <link rel="stylesheet" href="../../../../shared/base.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header class="site-header" id="siteHeader">
+      <div class="header-container">
+        <a
+          href="../../../../index.html"
+          class="brand-link"
+          aria-label="Inicio Profemacón Algoritmos"
+        >
+          <img
+            src="../../../../assets/logo-profe-macon.png"
+            alt="Profe Macón"
+            class="main-logo"
+          />
+        </a>
+
+        <span class="school-link" aria-label="Liceo 29 Alicia Goyena">
+          <img
+            src="../../../../assets/logo-liceo-29.png"
+            alt="Liceo 29 Alicia Goyena"
+            class="school-logo"
+          />
+        </span>
+
+        <div class="title-block">
+          <h1>ALGORITMOS</h1>
+          <p>Misión 8: Detective de patrones</p>
+        </div>
+
+        <nav class="main-nav" aria-label="Navegación principal">
+          <a href="../../../../index.html">Inicio</a>
+          <a href="../../../../index.html#algoritmos">Algoritmos</a>
+          <a href="../../../../index.html#bloques">Bloques</a>
+          <a href="../../../../index.html#microbit">Micro:bit</a>
+          <a href="../../../../docente/index.html">Docentes</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero mission-hero">
+        <h2>Misión 8: Detective de patrones</h2>
+        <p>
+          Investigá las pistas de cada ronda, descartá sospechosos y descubrí
+          quién es el Saboteador antes de que se agote tu puntaje.
+        </p>
+      </section>
+
+      <section class="layout-game">
+        <article class="form-card panel-ingreso" id="panelIngreso">
+          <h2 class="section-title">Ingreso al desafío</h2>
+          <p class="help-text">
+            Elegí tu grupo y luego tu nombre. No escribas tus datos:
+            seleccionalos de la lista.
+          </p>
+
+          <div class="form-row">
+            <label for="grupoSelect">Grupo</label>
+            <select id="grupoSelect">
+              <option value="">Cargando grupos...</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="estudianteSelect">Estudiante</label>
+            <select id="estudianteSelect" disabled>
+              <option value="">Primero elegí un grupo</option>
+            </select>
+          </div>
+
+          <button id="btnEntrar" disabled>Entrar al desafío</button>
+          <p class="status-message" id="estadoIngreso"></p>
+        </article>
+
+        <article class="card panel-juego is-hidden" id="panelJuego">
+          <div class="mission-top">
+            <div>
+              <h2 id="nombreJugador">Jugador/a</h2>
+              <p id="grupoJugador" class="muted"></p>
+            </div>
+            <div class="timer-box" id="cronometro">00:00</div>
+          </div>
+
+          <div class="instructions-box">
+            <strong>Regla clave:</strong> el Saboteador nunca se sabotea a sí
+            mismo. Primero reuní dos pistas. Después acusá usando el historial
+            para descartar sospechosos.
+          </div>
+
+          <div class="target-box">
+            <span>Puntaje actual</span>
+            <strong id="puntajeTexto">100</strong>
+          </div>
+
+          <div class="fase-panel">
+            <div>
+              <span class="fase-label" id="rondaTexto">Ronda 1</span>
+              <p id="faseDescripcion" class="muted">
+                Leé las pistas acumuladas antes de acusar. Tenés una acusación
+                por ronda.
+              </p>
+            </div>
+            <button id="btnNuevaRonda" class="btn-secondary" disabled>
+              Nueva ronda
+            </button>
+          </div>
+
+          <section class="pistas-card">
+            <h3>Pistas de la investigación</h3>
+            <p class="muted">
+              Usá el historial para descartar sospechosos. No borres las pistas
+              anteriores.
+            </p>
+            <div id="pistasLista" class="pistas-lista" aria-live="polite">
+              <p>Todavía no hay pistas. Presioná “Iniciar misión”.</p>
+            </div>
+          </section>
+
+          <section class="sospechosos-card">
+            <h3>Sospechosos</h3>
+            <div
+              id="personajesGrid"
+              class="personajes-grid"
+              aria-label="Sospechosos de la misión"
+            ></div>
+          </section>
+
+          <div class="stats-row">
+            <span>Acusaciones: <strong id="acusacionesTexto">0</strong></span>
+            <span
+              >Sospechosos activos: <strong id="activosTexto">0</strong></span
+            >
+            <span
+              >Descartados por ataque:
+              <strong id="descartadosTexto">0</strong></span
+            >
+          </div>
+
+          <div class="button-row">
+            <button id="btnIniciar">Iniciar misión</button>
+            <button id="btnReiniciar" class="btn-secondary" disabled>
+              Reiniciar
+            </button>
+          </div>
+
+          <div id="resultado" class="resultado" aria-live="polite"></div>
+
+          <section class="historial-card">
+            <h3>Historial</h3>
+            <div class="table-wrapper">
+              <table class="attempt-table">
+                <thead>
+                  <tr>
+                    <th>Ronda</th>
+                    <th>Atacado</th>
+                    <th>Protegido</th>
+                    <th>Resultado</th>
+                    <th>Acusación</th>
+                  </tr>
+                </thead>
+                <tbody id="historialBody">
+                  <tr>
+                    <td colspan="5">Todavía no hay rondas registradas.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>Profemacón Algoritmos</p>
+      <small>Explora, aprende, crea.</small>
+    </footer>
+
+    <script src="../../../../shared/header.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

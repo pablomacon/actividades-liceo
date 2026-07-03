@@ -165,9 +165,13 @@ function prepararNuevaRed() {
     numeroAleatorio(minimo, maximo),
   ]);
 
-  const mejorRuta = calcularMejorRuta(CONFIG.ciudadInicio, CONFIG.ciudadDestino);
+  const mejorRuta = calcularMejorRuta(
+    CONFIG.ciudadInicio,
+    CONFIG.ciudadDestino,
+  );
   costoOptimoActual = mejorRuta.costo;
-  interferenciaMaximaActual = costoOptimoActual + (CONFIG.margenInterferencia ?? 4);
+  interferenciaMaximaActual =
+    costoOptimoActual + (CONFIG.margenInterferencia ?? 4);
 
   limiteTexto.textContent = String(interferenciaMaximaActual);
 }
@@ -261,36 +265,42 @@ function dibujarMapa() {
     mapSvg.appendChild(text);
   });
 
-function dibujarSiluetaUruguay() {
-  // Fondo esquemático de grafo por niveles: ayuda a leer filas y no pretende ser un mapa real.
-  const niveles = [9, 29, 50, 71, 91];
-  niveles.forEach((y) => {
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    line.setAttribute("x1", "8");
-    line.setAttribute("y1", y);
-    line.setAttribute("x2", "92");
-    line.setAttribute("y2", y);
-    line.classList.add("graph-guide-line");
-    mapSvg.appendChild(line);
-  });
+  function dibujarSiluetaUruguay() {
+    // Fondo esquemático de grafo por niveles: ayuda a leer filas y no pretende ser un mapa real.
+    const niveles = [9, 29, 50, 71, 91];
+    niveles.forEach((y) => {
+      const line = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "line",
+      );
+      line.setAttribute("x1", "8");
+      line.setAttribute("y1", y);
+      line.setAttribute("x2", "92");
+      line.setAttribute("y2", y);
+      line.classList.add("graph-guide-line");
+      mapSvg.appendChild(line);
+    });
 
-  const columnas = [22, 50, 78];
-  columnas.forEach((x) => {
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    line.setAttribute("x1", x);
-    line.setAttribute("y1", "13");
-    line.setAttribute("x2", x);
-    line.setAttribute("y2", "88");
-    line.classList.add("graph-guide-line", "graph-guide-vertical");
-    mapSvg.appendChild(line);
-  });
-}
+    const columnas = [22, 50, 78];
+    columnas.forEach((x) => {
+      const line = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "line",
+      );
+      line.setAttribute("x1", x);
+      line.setAttribute("y1", "13");
+      line.setAttribute("x2", x);
+      line.setAttribute("y2", "88");
+      line.classList.add("graph-guide-line", "graph-guide-vertical");
+      mapSvg.appendChild(line);
+    });
+  }
 
-function obtenerOffsetCosto(desde, hasta) {
-  const directo = `${desde}|${hasta}`;
-  const inverso = `${hasta}|${desde}`;
-  return offsetCostos[directo] || offsetCostos[inverso] || { dx: 0, dy: -1 };
-}
+  function obtenerOffsetCosto(desde, hasta) {
+    const directo = `${desde}|${hasta}`;
+    const inverso = `${hasta}|${desde}`;
+    return offsetCostos[directo] || offsetCostos[inverso] || { dx: 0, dy: -1 };
+  }
 
   Object.entries(ciudades).forEach(([nombre, pos]) => {
     const button = document.createElement("button");
@@ -361,7 +371,9 @@ async function cargarEstudiantes(grupoId) {
     estudianteSelect.disabled = true;
     estudianteSelect.innerHTML = `<option value="">Cargando estudiantes...</option>`;
 
-    const response = await fetch(`${CONFIG.apiBaseUrl}/estudiantes?grupo_id=${grupoId}`);
+    const response = await fetch(
+      `${CONFIG.apiBaseUrl}/estudiantes?grupo_id=${grupoId}`,
+    );
     if (!response.ok) throw new Error("No se pudieron cargar los estudiantes.");
 
     const estudiantes = await response.json();
@@ -438,21 +450,24 @@ async function entrarAlDesafio() {
     resultado.textContent = `Intentos usados: ${estado.intentos_realizados} de ${estado.max_intentos}. Te quedan ${estado.intentos_restantes}. Cuando estés pronto/a, presioná Iniciar transmisión.`;
   } catch (error) {
     console.error(error);
-    estadoIngreso.textContent = "No se pudo verificar la actividad. Avisá al docente.";
+    estadoIngreso.textContent =
+      "No se pudo verificar la actividad. Avisá al docente.";
   } finally {
     btnEntrar.disabled = false;
   }
 }
 
 async function consultarEstadoIntento(estudianteId) {
-  const url = `${CONFIG.apiBaseUrl}/estado-intento?juego_slug=${CONFIG.juegoSlug}&estudiante_id=${estudianteId}`;
-  const respuesta = await fetch(url);
+  const url =
+    `${CONFIG.apiBaseUrl}/estado-intento` +
+    `?juego_slug=${CONFIG.juegoSlug}` +
+    `&estudiante_id=${estudianteId}` +
+    `&grupo_id=${grupoActual.id}`;
 
-  if (!respuesta.ok) {
+  const response = await fetch(url);
+  if (!response.ok)
     throw new Error("No se pudo consultar el estado del intento.");
-  }
-
-  return await respuesta.json();
+  return await response.json();
 }
 
 /* =========================
@@ -532,12 +547,10 @@ function elegirCiudad(nombreCiudad) {
 
   if (costoTotal > interferenciaMaximaActual) {
     resultado.className = "resultado warn";
-    resultado.textContent =
-      `Atención: la interferencia ya llegó a ${costoTotal}. Todavía podés llegar, pero quizás el mensaje sea interceptado.`;
+    resultado.textContent = `Atención: la interferencia ya llegó a ${costoTotal}. Todavía podés llegar, pero quizás el mensaje sea interceptado.`;
   } else {
     resultado.className = "resultado";
-    resultado.textContent =
-      `Mensaje en ${ciudadActual}. Elegí el próximo salto. Interferencia acumulada: ${costoTotal}.`;
+    resultado.textContent = `Mensaje en ${ciudadActual}. Elegí el próximo salto. Interferencia acumulada: ${costoTotal}.`;
   }
 }
 
@@ -561,7 +574,8 @@ function actualizarMapaInteractivo() {
 
     if (ruta.includes(nombre)) button.classList.add("city-visited");
     if (nombre === CONFIG.ciudadInicio) button.classList.add("city-start");
-    if (nombre === CONFIG.ciudadDestino) button.classList.add("city-destination");
+    if (nombre === CONFIG.ciudadDestino)
+      button.classList.add("city-destination");
     if (nombre === ciudadActual) button.classList.add("city-current");
   });
 
@@ -589,11 +603,13 @@ function marcarRutaEnMapa() {
   for (let i = 0; i < ruta.length - 1; i++) {
     const desde = ruta[i];
     const hasta = ruta[i + 1];
-    const line = [...mapSvg.querySelectorAll(".connection-line")].find((element) => {
-      const a = element.dataset.desde;
-      const b = element.dataset.hasta;
-      return (a === desde && b === hasta) || (a === hasta && b === desde);
-    });
+    const line = [...mapSvg.querySelectorAll(".connection-line")].find(
+      (element) => {
+        const a = element.dataset.desde;
+        const b = element.dataset.hasta;
+        return (a === desde && b === hasta) || (a === hasta && b === desde);
+      },
+    );
 
     if (line) line.classList.add("line-active");
   }
@@ -604,7 +620,8 @@ function actualizarPanelRuta() {
   contadorPasos.textContent = String(saltos.length);
   contadorCosto.textContent = String(costoTotal);
   rutaTexto.textContent = ruta.join(" → ");
-  btnDeshacer.disabled = !juegoEnCurso || saltos.length === 0 || juegoFinalizado;
+  btnDeshacer.disabled =
+    !juegoEnCurso || saltos.length === 0 || juegoFinalizado;
 }
 
 function renderHistorial() {
@@ -661,12 +678,10 @@ async function finalizarJuego() {
 
   if (eficiente) {
     resultado.className = "resultado ok";
-    resultado.textContent =
-      `Mensaje entregado. Ruta: ${ruta.join(" → ")}. Interferencia total: ${costoTotal}. Límite: ${interferenciaMaximaActual}. Pasos: ${saltos.length}.`;
+    resultado.textContent = `Mensaje entregado. Ruta: ${ruta.join(" → ")}. Interferencia total: ${costoTotal}. Límite: ${interferenciaMaximaActual}. Pasos: ${saltos.length}.`;
   } else {
     resultado.className = "resultado error";
-    resultado.textContent =
-      `Llegaste a Rivera, pero el mensaje fue interceptado por demasiada interferencia (${costoTotal}). El límite era ${interferenciaMaximaActual}. Probá otra ruta mirando los costos, no solo la distancia.`;
+    resultado.textContent = `Llegaste a Rivera, pero el mensaje fue interceptado por demasiada interferencia (${costoTotal}). El límite era ${interferenciaMaximaActual}. Probá otra ruta mirando los costos, no solo la distancia.`;
   }
 
   await guardarIntento(eficiente);
@@ -755,7 +770,9 @@ function detenerCronometro() {
 }
 
 function formatearTiempo(segundosTotales) {
-  const minutos = Math.floor(segundosTotales / 60).toString().padStart(2, "0");
+  const minutos = Math.floor(segundosTotales / 60)
+    .toString()
+    .padStart(2, "0");
   const segundos = (segundosTotales % 60).toString().padStart(2, "0");
   return `${minutos}:${segundos}`;
 }

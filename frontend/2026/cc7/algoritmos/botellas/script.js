@@ -167,21 +167,52 @@ function manejarCambioEstudiante() {
    INGRESO
 ========================= */
 
-function entrarAlDesafio() {
+async function entrarAlDesafio() {
   if (!estudianteActual || !grupoActual) return;
 
-  nombreJugador.textContent = estudianteActual.nombre_completo;
-  grupoJugador.textContent = `Grupo: ${grupoActual.nombre}`;
+  btnEntrar.disabled = true;
+  estadoIngreso.textContent = "Verificando disponibilidad e intentos...";
 
-  panelIngreso.classList.add("is-hidden");
-  panelJuego.classList.remove("is-hidden");
+  try {
+    const estado = await consultarEstadoIntento(estudianteActual.id);
 
-  const layoutGame = document.querySelector(".layout-game");
-  if (layoutGame) {
-    layoutGame.classList.add("solo-juego");
+    if (!estado.puede_jugar) {
+      estadoIngreso.textContent = estado.motivo;
+      return;
+    }
+
+    nombreJugador.textContent = estudianteActual.nombre_completo;
+    grupoJugador.textContent = `Grupo: ${grupoActual.nombre}`;
+
+    panelIngreso.classList.add("is-hidden");
+    panelJuego.classList.remove("is-hidden");
+
+    const layoutGame = document.querySelector(".layout-game");
+    if (layoutGame) {
+      layoutGame.classList.add("solo-juego");
+    }
+
+    resultado.className = "resultado";
+    resultado.textContent = `Intentos usados: ${estado.intentos_realizados} de ${estado.max_intentos}. Te quedan ${estado.intentos_restantes}. Cuando estés pronto/a, presioná Iniciar juego.`;
+  } catch (error) {
+    console.error(error);
+    estadoIngreso.textContent =
+      "No se pudo verificar la actividad. Avisá al docente.";
+  } finally {
+    btnEntrar.disabled = false;
   }
+}
+async function consultarEstadoIntento(estudianteId) {
+  const url =
+    `${CONFIG.apiBaseUrl}/estado-intento` +
+    `?juego_slug=${CONFIG.juegoSlug}` +
+    `&estudiante_id=${estudianteId}` +
+    `&grupo_id=${grupoActual.id}`;
 
-  resultado.textContent = "Cuando estés pronto/a, presioná Iniciar juego.";
+  const response = await fetch(url);
+  if (!response.ok)
+    throw new Error("No se pudo consultar el estado del intento.");
+  return await response.json();
 }
 
 /* =========================

@@ -1,6 +1,16 @@
 import { sql } from "../db/neon.js";
 import { setCors, handleOptions, sendError } from "./_utils.js";
 
+function normalizarId(valor) {
+  const numero = Number(valor);
+  return Number.isInteger(numero) && numero > 0 ? numero : null;
+}
+
+function normalizarNumero(valor, defecto = 0) {
+  const numero = Number(valor);
+  return Number.isFinite(numero) && numero >= 0 ? numero : defecto;
+}
+
 export default async function handler(req, res) {
   setCors(res);
   if (handleOptions(req, res)) return;
@@ -20,7 +30,11 @@ export default async function handler(req, res) {
     completado,
   } = req.body || {};
 
-  if (!juego_slug || !estudiante_id || !grupo_id) {
+  const estudianteId = normalizarId(estudiante_id);
+  const grupoId = normalizarId(grupo_id);
+  const inscripcionId = inscripcion_id ? normalizarId(inscripcion_id) : null;
+
+  if (!juego_slug || !estudianteId || !grupoId) {
     return sendError(res, 400, "Faltan datos obligatorios");
   }
 
@@ -31,6 +45,11 @@ export default async function handler(req, res) {
   ) {
     return sendError(res, 400, "Faltan métricas del intento");
   }
+
+  const totalIntercambios = normalizarNumero(total_intercambios);
+  const totalAdivinanzas = normalizarNumero(total_adivinanzas);
+  const tiempoTotalSegundos = normalizarNumero(tiempo_total_segundos);
+  const intentoCompletado = completado ?? true;
 
   try {
     const juegos = await sql`
@@ -63,11 +82,29 @@ export default async function handler(req, res) {
       );
     }
 
+    const habilitacionRows = await sql`
+      SELECT habilitado
+      FROM juegos_grupos
+      WHERE juego_id = ${juegoId}
+        AND grupo_id = ${grupoId}
+      LIMIT 1;
+    `;
+
+    const grupoHabilitado = habilitacionRows[0]?.habilitado === true;
+
+    if (!grupoHabilitado) {
+      return sendError(
+        res,
+        403,
+        "Esta actividad no está habilitada para tu grupo en este momento.",
+      );
+    }
+
     const intentosRows = await sql`
       SELECT COUNT(*)::int AS total
       FROM intentos_juego
       WHERE juego_id = ${juegoId}
-        AND estudiante_id = ${Number(estudiante_id)};
+        AND estudiante_id = ${estudianteId};
     `;
 
     const intentosRealizados = Number(intentosRows[0]?.total ?? 0);
@@ -96,14 +133,14 @@ export default async function handler(req, res) {
       )
       VALUES (
         ${juegoId},
-        ${Number(estudiante_id)},
-        ${Number(grupo_id)},
-        ${inscripcion_id ? Number(inscripcion_id) : null},
+        ${estudianteId},
+        ${grupoId},
+        ${inscripcionId},
         ${numeroIntento},
-        ${Number(total_intercambios)},
-        ${Number(total_adivinanzas)},
-        ${Number(tiempo_total_segundos)},
-        ${completado ?? true}
+        ${totalIntercambios},
+        ${totalAdivinanzas},
+        ${tiempoTotalSegundos},
+        ${intentoCompletado}
       )
       RETURNING id, numero_intento, fecha;
     `;
@@ -116,7 +153,12 @@ export default async function handler(req, res) {
       intentos_restantes: Math.max(maxIntentos - numeroIntento, 0),
     });
   } catch (error) {
-    console.error("Error en /api/intentos:", error);
+    console.error("Error en /api/intentos:", {
+      message: error.message,
+      code: error.code,
+      detail: error.detail,
+      stack: error.stack,
+    });
 
     return sendError(res, 500, "Error al guardar intento");
   }

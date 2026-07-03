@@ -233,14 +233,15 @@ async function entrarAlDesafio() {
 }
 
 async function consultarEstadoIntento(estudianteId) {
-  const url = `${CONFIG.apiBaseUrl}/estado-intento?juego_slug=${encodeURIComponent(CONFIG.juegoSlug)}&estudiante_id=${encodeURIComponent(estudianteId)}`;
+  const url =
+    `${CONFIG.apiBaseUrl}/estado-intento` +
+    `?juego_slug=${CONFIG.juegoSlug}` +
+    `&estudiante_id=${estudianteId}` +
+    `&grupo_id=${grupoActual.id}`;
 
   const response = await fetch(url);
-
-  if (!response.ok) {
+  if (!response.ok)
     throw new Error("No se pudo consultar el estado del intento.");
-  }
-
   return await response.json();
 }
 
@@ -366,8 +367,7 @@ function aceptarIntento() {
 
   resultado.className = "resultado warn";
   const correctas = contarPosicionesCorrectas(pistas);
-  resultado.textContent =
-    `Resultado: ${correctas} posición(es) correcta(s). Los números verdes quedan fijos; las demás posiciones no reciben pista.`;
+  resultado.textContent = `Resultado: ${correctas} posición(es) correcta(s). Los números verdes quedan fijos; las demás posiciones no reciben pista.`;
 
   prepararSiguienteIntento(pistas);
 }

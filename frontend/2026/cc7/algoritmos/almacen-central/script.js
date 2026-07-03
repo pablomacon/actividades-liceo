@@ -45,10 +45,26 @@ let totalFase2 = 0;
 let historial = [];
 
 const objetos = [
-  "Adaptadores", "Auriculares", "Cables", "Calculadoras", "Cartulinas",
-  "Cuadernos", "Extensiones", "Marcadores", "Mouse", "Notebooks",
-  "Parlantes", "Pelotas", "Pendrives", "Pinceles", "Proyectores",
-  "Reglas", "Routers", "Tizas", "Tijeras", "Webcams"
+  "Adaptadores",
+  "Auriculares",
+  "Cables",
+  "Calculadoras",
+  "Cartulinas",
+  "Cuadernos",
+  "Extensiones",
+  "Marcadores",
+  "Mouse",
+  "Notebooks",
+  "Parlantes",
+  "Pelotas",
+  "Pendrives",
+  "Pinceles",
+  "Proyectores",
+  "Reglas",
+  "Routers",
+  "Tizas",
+  "Tijeras",
+  "Webcams",
 ];
 
 document.addEventListener("DOMContentLoaded", iniciarPantalla);
@@ -118,7 +134,9 @@ async function cargarEstudiantes(grupoId) {
     estudianteSelect.disabled = true;
     estudianteSelect.innerHTML = `<option value="">Cargando estudiantes...</option>`;
 
-    const response = await fetch(`${CONFIG.apiBaseUrl}/estudiantes?grupo_id=${grupoId}`);
+    const response = await fetch(
+      `${CONFIG.apiBaseUrl}/estudiantes?grupo_id=${grupoId}`,
+    );
     if (!response.ok) throw new Error("No se pudieron cargar los estudiantes.");
 
     const estudiantes = await response.json();
@@ -138,7 +156,8 @@ async function cargarEstudiantes(grupoId) {
   } catch (error) {
     console.error(error);
     estudianteSelect.innerHTML = `<option value="">No se pudieron cargar estudiantes</option>`;
-    estadoIngreso.textContent = "No se pudo conectar con la lista de estudiantes.";
+    estadoIngreso.textContent =
+      "No se pudo conectar con la lista de estudiantes.";
   }
 }
 
@@ -155,7 +174,9 @@ function manejarCambioEstudiante() {
   estudianteActual = {
     id: Number(estudianteId),
     nombre_completo: selected.dataset.nombre,
-    inscripcion_id: selected.dataset.inscripcionId ? Number(selected.dataset.inscripcionId) : null,
+    inscripcion_id: selected.dataset.inscripcionId
+      ? Number(selected.dataset.inscripcionId)
+      : null,
   };
 
   btnEntrar.disabled = false;
@@ -192,16 +213,23 @@ async function entrarAlDesafio() {
     resultado.textContent = `Intentos usados: ${estado.intentos_realizados} de ${estado.max_intentos}. Te quedan ${estado.intentos_restantes}.`;
   } catch (error) {
     console.error(error);
-    estadoIngreso.textContent = "No se pudo verificar la actividad. Avisá al docente.";
+    estadoIngreso.textContent =
+      "No se pudo verificar la actividad. Avisá al docente.";
   } finally {
     btnEntrar.disabled = false;
   }
 }
 
 async function consultarEstadoIntento(estudianteId) {
-  const url = `${CONFIG.apiBaseUrl}/estado-intento?juego_slug=${CONFIG.juegoSlug}&estudiante_id=${estudianteId}`;
+  const url =
+    `${CONFIG.apiBaseUrl}/estado-intento` +
+    `?juego_slug=${CONFIG.juegoSlug}` +
+    `&estudiante_id=${estudianteId}` +
+    `&grupo_id=${grupoActual.id}`;
+
   const response = await fetch(url);
-  if (!response.ok) throw new Error("No se pudo consultar el estado del intento.");
+  if (!response.ok)
+    throw new Error("No se pudo consultar el estado del intento.");
   return await response.json();
 }
 
@@ -226,7 +254,8 @@ function iniciarJuego() {
   btnSiguienteFase.disabled = true;
 
   resultado.className = "resultado";
-  resultado.textContent = "Fase 1: abrí cajas hasta encontrar el objeto. No hay índice todavía.";
+  resultado.textContent =
+    "Fase 1: abrí cajas hasta encontrar el objeto. No hay índice todavía.";
 
   iniciarCronometro();
   renderizarIndice();
@@ -259,13 +288,20 @@ function renderizarCajas() {
     button.dataset.numero = String(caja.numero);
 
     if (caja.abierta) button.classList.add("caja-abierta");
-    if (caja.objeto === objetivo && caja.abierta) button.classList.add("caja-correcta");
+    if (caja.objeto === objetivo && caja.abierta)
+      button.classList.add("caja-correcta");
 
     button.innerHTML = caja.abierta
       ? `<span>Caja ${String(caja.numero).padStart(2, "0")}</span><strong>${caja.objeto}</strong>`
       : `<span>Caja ${String(caja.numero).padStart(2, "0")}</span><strong>?</strong>`;
 
-    button.disabled = !juegoEnCurso || juegoFinalizado || caja.abierta || (fase === 1 && totalFase1 > 0 && cajas.find(c => c.objeto === objetivo)?.abierta);
+    button.disabled =
+      !juegoEnCurso ||
+      juegoFinalizado ||
+      caja.abierta ||
+      (fase === 1 &&
+        totalFase1 > 0 &&
+        cajas.find((c) => c.objeto === objetivo)?.abierta);
     button.addEventListener("click", () => revisarCaja(caja.numero));
 
     cajasGrid.appendChild(button);
@@ -386,7 +422,8 @@ function reiniciarJuego() {
   objetivoTexto.textContent = "---";
   cajasGrid.innerHTML = "";
   resultado.className = "resultado";
-  resultado.textContent = "Reiniciado. Presioná Iniciar misión para jugar otra vez.";
+  resultado.textContent =
+    "Reiniciado. Presioná Iniciar misión para jugar otra vez.";
   cronometro.textContent = "00:00";
 
   actualizarPanel();
@@ -399,12 +436,15 @@ function actualizarPanel() {
 
   if (fase === 1) {
     faseTexto.textContent = "Fase 1: almacén desordenado";
-    faseDescripcion.textContent = "Abrí cajas hasta encontrar el objeto. Cada caja abierta cuenta como una revisión.";
+    faseDescripcion.textContent =
+      "Abrí cajas hasta encontrar el objeto. Cada caja abierta cuenta como una revisión.";
     ahorroTexto.textContent = "---";
   } else {
     faseTexto.textContent = "Fase 2: almacén con índice";
-    faseDescripcion.textContent = "Usá el índice alfabético para encontrar la caja correcta con menos revisiones.";
-    ahorroTexto.textContent = totalFase2 > 0 ? String(Math.max(totalFase1 - totalFase2, 0)) : "---";
+    faseDescripcion.textContent =
+      "Usá el índice alfabético para encontrar la caja correcta con menos revisiones.";
+    ahorroTexto.textContent =
+      totalFase2 > 0 ? String(Math.max(totalFase1 - totalFase2, 0)) : "---";
   }
 }
 
@@ -448,7 +488,9 @@ function detenerCronometro() {
 }
 
 function formatearTiempo(segundos) {
-  const min = Math.floor(segundos / 60).toString().padStart(2, "0");
+  const min = Math.floor(segundos / 60)
+    .toString()
+    .padStart(2, "0");
   const sec = (segundos % 60).toString().padStart(2, "0");
   return `${min}:${sec}`;
 }
@@ -485,7 +527,8 @@ async function guardarIntento() {
   } catch (error) {
     console.error(error);
     resultado.className = "resultado error";
-    resultado.textContent = "El intento terminó, pero no se pudo guardar. Avisá al docente.";
+    resultado.textContent =
+      "El intento terminó, pero no se pudo guardar. Avisá al docente.";
   }
 }
 
