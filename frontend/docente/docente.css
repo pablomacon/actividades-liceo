@@ -451,3 +451,313 @@ select:focus {
     font-size: 1.45rem;
   }
 }
+/* =========================================================
+   GESTIÓN DE ACTIVIDADES
+========================================================= */
+
+.gestion-actividades {
+  margin-top: 28px;
+}
+
+.gestion-actividades .section-header {
+  align-items: flex-start;
+}
+
+.gestion-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.8fr) minmax(360px, 1.5fr);
+  gap: 20px;
+  margin: 22px 0;
+}
+
+.seleccion-card {
+  margin: 0;
+  padding: 18px;
+  border: 1px solid var(--gray);
+  border-radius: 16px;
+  background: var(--white);
+  min-width: 0;
+}
+
+.seleccion-card legend {
+  padding: 0 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.checkbox-destacado {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  background: rgba(0, 169, 157, 0.1);
+  border: 1px solid rgba(0, 169, 157, 0.25);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.checkbox-destacado:hover {
+  background: rgba(0, 169, 157, 0.16);
+}
+
+.checkbox-list {
+  display: grid;
+  gap: 9px;
+}
+
+.checkbox-list-actividades {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  border-radius: 11px;
+  background: var(--gray-light);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.checkbox-item:hover {
+  background: var(--white);
+  border-color: var(--violet);
+  transform: translateY(-1px);
+}
+
+.checkbox-item input,
+.checkbox-destacado input {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  margin-top: 1px;
+  accent-color: var(--teal);
+  cursor: pointer;
+}
+
+.checkbox-item span {
+  min-width: 0;
+}
+
+.checkbox-item strong {
+  display: block;
+  line-height: 1.25;
+}
+
+.checkbox-item small {
+  display: block;
+  margin-top: 3px;
+  color: var(--gray-dark);
+  font-size: 0.78rem;
+}
+
+.checkbox-item:has(input:checked) {
+  background: rgba(0, 169, 157, 0.1);
+  border-color: var(--teal);
+}
+
+.checkbox-item:has(input:disabled),
+.checkbox-destacado:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.acciones-habilitaciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.btn-success {
+  background: var(--teal);
+  color: var(--white);
+}
+
+.btn-success:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+
+.btn-secondary {
+  background: var(--gray-dark);
+  color: var(--white);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--black);
+}
+
+.texto-secundario {
+  margin: 0;
+  color: var(--gray-dark);
+}
+
+.estado-actual-header {
+  margin-top: 28px;
+  margin-bottom: 12px;
+}
+
+.estado-actual-header h3 {
+  margin: 0 0 5px;
+}
+
+.estado-actual-header p {
+  margin: 0;
+  color: var(--gray-dark);
+}
+
+/* =========================================================
+   TABLA DE HABILITACIONES
+========================================================= */
+
+#tablaHabilitaciones {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  background: var(--white);
+}
+
+#tablaHabilitaciones th,
+#tablaHabilitaciones td {
+  padding: 11px 10px;
+  border-bottom: 1px solid var(--gray);
+  text-align: left;
+  vertical-align: middle;
+}
+
+#tablaHabilitaciones th {
+  background: var(--black);
+  color: var(--white);
+}
+
+#tablaHabilitaciones th:not(:first-child),
+#tablaHabilitaciones td:not(:first-child) {
+  text-align: center;
+}
+
+#tablaHabilitaciones tbody tr:nth-child(even) {
+  background: rgba(178, 172, 172, 0.1);
+}
+
+#tablaHabilitaciones tbody tr:hover {
+  background: rgba(152, 141, 179, 0.1);
+}
+
+.actividad-slug {
+  display: block;
+  margin-top: 4px;
+  color: var(--gray-dark);
+  font-family: monospace;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.celda-estado-habilitacion {
+  min-width: 120px;
+}
+
+.badge-habilitacion {
+  display: inline-block;
+  min-width: 92px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.badge-habilitada {
+  color: #075f57;
+  background: rgba(0, 169, 157, 0.16);
+  border: 1px solid rgba(0, 169, 157, 0.35);
+}
+
+.badge-deshabilitada {
+  color: #5f5a5a;
+  background: rgba(178, 172, 172, 0.2);
+  border: 1px solid rgba(130, 125, 125, 0.28);
+}
+
+/* =========================================================
+   MENSAJES
+========================================================= */
+
+.mensaje {
+  margin: 16px 0;
+  padding: 13px 15px;
+  border-radius: 11px;
+  font-weight: 600;
+}
+
+.mensaje.aviso {
+  background: rgba(152, 141, 179, 0.14);
+  border-left: 5px solid var(--violet);
+}
+
+.mensaje.exito {
+  background: rgba(0, 169, 157, 0.12);
+  border-left: 5px solid var(--teal);
+}
+
+.mensaje.error {
+  background: rgba(242, 153, 74, 0.15);
+  border-left: 5px solid #f2994a;
+}
+
+/* =========================================================
+   ESTADO DE RESULTADOS
+========================================================= */
+
+.estado-resultado {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: var(--gray-light);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+  .gestion-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .checkbox-list-actividades {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .checkbox-list-actividades {
+    grid-template-columns: 1fr;
+  }
+
+  .acciones-habilitaciones {
+    flex-direction: column;
+  }
+
+  .acciones-habilitaciones .btn {
+    width: 100%;
+  }
+
+  .gestion-actividades .section-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #btnActualizarHabilitaciones {
+    width: 100%;
+  }
+}

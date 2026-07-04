@@ -6,6 +6,7 @@
     <title>Resultados | Panel docente</title>
     <link rel="stylesheet" href="docente.css" />
   </head>
+
   <body>
     <main class="panel-page">
       <section class="panel" aria-labelledby="tituloPanel">
@@ -13,8 +14,8 @@
           <div>
             <h1 id="tituloPanel">Panel docente de resultados</h1>
             <p>
-              Primera versión protegida. Esta página verifica sesión, rol y
-              cierre por inactividad.
+              Consultá evidencias y gestioná qué actividades están disponibles
+              para cada grupo.
             </p>
           </div>
 
@@ -23,7 +24,12 @@
               <strong>Usuario:</strong>
               <span id="nombreUsuario">Verificando...</span>
             </p>
-            <p><strong>Rol:</strong> <span id="rolUsuario">—</span></p>
+
+            <p>
+              <strong>Rol:</strong>
+              <span id="rolUsuario">—</span>
+            </p>
+
             <button id="cerrarSesionBtn" class="btn btn-danger" type="button">
               Cerrar sesión
             </button>
@@ -37,26 +43,122 @@
         <div class="grid">
           <article class="stat-card">
             <h3>Resumen del grupo</h3>
-            <p>Próximo paso: filtros por grupo, actividad y año lectivo.</p>
+            <p>
+              Revisá participación, cantidad de intentos y resultados por grupo.
+            </p>
           </article>
 
           <article class="stat-card">
             <h3>Evidencias</h3>
             <p>
-              Luego mostraremos participación, intentos, mejora y señales
-              pedagógicas.
+              Observá tiempos, estrategias, mejora entre intentos y
+              finalización.
             </p>
           </article>
 
           <article class="stat-card">
-            <h3>Exportación</h3>
-            <p>
-              Queda previsto exportar CSV y copiar resumen para portafolio
-              docente.
-            </p>
+            <h3>Gestión</h3>
+            <p>Abrí o cerrá actividades para uno, varios o todos los grupos.</p>
           </article>
         </div>
 
+        <!-- GESTIÓN DE ACTIVIDADES -->
+        <section
+          class="panel-section gestion-actividades"
+          id="seccionHabilitaciones"
+          aria-labelledby="tituloHabilitaciones"
+        >
+          <div class="section-header">
+            <div>
+              <h2 id="tituloHabilitaciones">Gestión de actividades</h2>
+              <p>
+                Seleccioná grupos y actividades. Luego elegí habilitar o
+                deshabilitar.
+              </p>
+            </div>
+
+            <button
+              id="btnActualizarHabilitaciones"
+              class="btn btn-secondary"
+              type="button"
+            >
+              Actualizar estado
+            </button>
+          </div>
+
+          <div class="gestion-grid">
+            <fieldset class="seleccion-card">
+              <legend>Grupos</legend>
+
+              <label class="checkbox-destacado">
+                <input type="checkbox" id="seleccionarTodosGrupos" />
+                <span>Seleccionar todos los grupos</span>
+              </label>
+
+              <div id="listaGruposHabilitaciones" class="checkbox-list">
+                <p class="texto-secundario">Cargando grupos...</p>
+              </div>
+            </fieldset>
+
+            <fieldset class="seleccion-card">
+              <legend>Actividades</legend>
+
+              <label class="checkbox-destacado">
+                <input type="checkbox" id="seleccionarTodasActividades" />
+                <span>Seleccionar todas las actividades</span>
+              </label>
+
+              <div
+                id="listaActividadesHabilitaciones"
+                class="checkbox-list checkbox-list-actividades"
+              >
+                <p class="texto-secundario">Cargando actividades...</p>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="acciones-habilitaciones">
+            <button id="btnHabilitar" class="btn btn-success" type="button">
+              Habilitar
+            </button>
+
+            <button id="btnDeshabilitar" class="btn btn-danger" type="button">
+              Deshabilitar
+            </button>
+          </div>
+
+          <p id="estadoHabilitaciones" class="mensaje aviso" aria-live="polite">
+            Preparando gestión de actividades...
+          </p>
+
+          <div class="estado-actual-header">
+            <div>
+              <h3>Estado actual</h3>
+              <p>
+                La tabla muestra qué actividades están disponibles para cada
+                grupo.
+              </p>
+            </div>
+          </div>
+
+          <div class="tabla-contenedor">
+            <table id="tablaHabilitaciones">
+              <thead>
+                <tr id="encabezadoTablaHabilitaciones">
+                  <th>Actividad</th>
+                </tr>
+              </thead>
+
+              <tbody id="cuerpoTablaHabilitaciones">
+                <tr>
+                  <td>Cargando habilitaciones...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- RESULTADOS -->
         <section class="panel-section">
           <div class="section-header">
             <h2>Resultados registrados</h2>
@@ -98,7 +200,7 @@
             </article>
 
             <article class="resumen-card">
-              <span class="resumen-label">Estudiantes con actividad</span>
+              <span class="resumen-label"> Estudiantes con actividad </span>
               <strong id="resumenEstudiantes">—</strong>
             </article>
 
@@ -129,6 +231,7 @@
                   <th>Resultado</th>
                 </tr>
               </thead>
+
               <tbody></tbody>
             </table>
           </div>
@@ -138,6 +241,7 @@
 
     <script src="./docente-auth.js"></script>
     <script src="./resultados.js"></script>
+
     <script>
       iniciarPanelProtegido();
     </script>

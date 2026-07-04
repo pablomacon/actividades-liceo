@@ -53,6 +53,13 @@ const actividadesAlgoritmos = [
     url: "2026/cc7/algoritmos/criptografos/index.html",
   },
   {
+  slug: "detective-patrones-01",
+  titulo: "Misión 8: Detective de patrones",
+  descripcion:
+    "Analizá pistas, descartá sospechosos y descubrí quién es el Saboteador.",
+  url: "2026/cc7/algoritmos/detective-patrones/index.html",
+},
+  {
     slug: null,
     titulo: "Búsqueda y pistas",
     descripcion:
