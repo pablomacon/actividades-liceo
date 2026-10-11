@@ -2,8 +2,38 @@ import { sql } from "../db/neon.js";
 import { setCors, handleOptions, sendError } from "./_utils.js";
 import { getBearerToken, verifySessionToken } from "./_auth.js";
 
+const SLUG_BUCLES_EDUBLOCKS = "bucles-edublocks-01";
+
 function traducirResultado(completado) {
   return completado ? "Completado" : "No completado";
+}
+
+function obtenerEvidenciaBucles(valor) {
+  if (!valor) return null;
+
+  if (typeof valor === "string") {
+    try {
+      return JSON.parse(valor);
+    } catch {
+      return null;
+    }
+  }
+
+  return typeof valor === "object" && !Array.isArray(valor) ? valor : null;
+}
+
+function crearDetalleBucles(evidencia) {
+  const datos = obtenerEvidenciaBucles(evidencia);
+
+  if (!datos) return "Sin evidencia pedagógica detallada.";
+
+  const siNo = (valor) => (valor === true ? "sí" : "no");
+
+  return [
+    `Recorrido: ${datos.recorrido_inicial || "—"} → ${datos.recorrido_final || "—"}.`,
+    `Repetición: ${siNo(datos.repeticion_comprendida)}; predicción: ${siNo(datos.prediccion_correcta)}; error: ${siNo(datos.error_identificado)}.`,
+    `EduBlocks abierto: ${siNo(datos.edublocks_abierto)}; declarado probado: ${siNo(datos.edublocks_declarado_probado)}.`,
+  ].join(" ");
 }
 
 function traducirMetricas(slug, intento) {
@@ -53,6 +83,13 @@ function traducirMetricas(slug, intento) {
     metricas.metrica_2_valor = intento.total_adivinanzas;
   }
 
+  if (slug === "bucles-edublocks-01") {
+    metricas.metrica_1_nombre = "Comprobación";
+    metricas.metrica_1_valor = `${intento.total_adivinanzas} de 3`;
+    metricas.metrica_2_nombre = "Pistas consultadas";
+    metricas.metrica_2_valor = intento.total_intercambios;
+  }
+
   return metricas;
 }
 
@@ -81,13 +118,19 @@ function calcularResumen(intentos) {
   const completados = intentos.filter((i) => i.completado).length;
   const noCompletados = intentos.length - completados;
 
-  const totalTiempo = intentos.reduce(
+  const intentosConTiempo = intentos.filter(
+    (intento) => intento.juego_slug !== SLUG_BUCLES_EDUBLOCKS,
+  );
+
+  const totalTiempo = intentosConTiempo.reduce(
     (acum, i) => acum + Number(i.tiempo_segundos ?? 0),
     0,
   );
 
   const promedioTiempoSegundos =
-    intentos.length > 0 ? Math.round(totalTiempo / intentos.length) : 0;
+    intentosConTiempo.length > 0
+      ? Math.round(totalTiempo / intentosConTiempo.length)
+      : 0;
 
   const intentosPorEstudiante = new Map();
 
@@ -107,7 +150,10 @@ function calcularResumen(intentos) {
     completados,
     no_completados: noCompletados,
     promedio_tiempo_segundos: promedioTiempoSegundos,
-    promedio_tiempo: formatearTiempo(promedioTiempoSegundos),
+    promedio_tiempo:
+      intentosConTiempo.length > 0
+        ? formatearTiempo(promedioTiempoSegundos)
+        : "No registrado",
     promedio_intentos_por_estudiante: promedioIntentosPorEstudiante,
   };
 }
@@ -182,6 +228,7 @@ export default async function handler(req, res) {
         i.total_adivinanzas,
         i.tiempo_total_segundos,
         i.completado,
+        i.evidencia_json,
         i.fecha,
 
         e.id AS estudiante_id,
@@ -227,12 +274,23 @@ export default async function handler(req, res) {
         categoria: fila.juego_categoria,
 
         numero_intento: fila.numero_intento,
-        resultado: traducirResultado(fila.completado),
+        resultado:
+          fila.juego_slug === SLUG_BUCLES_EDUBLOCKS
+            ? "Comprobación entregada"
+            : traducirResultado(fila.completado),
         completado: fila.completado,
 
         tiempo_segundos: fila.tiempo_total_segundos,
-        tiempo: formatearTiempo(fila.tiempo_total_segundos),
+        tiempo:
+          fila.juego_slug === SLUG_BUCLES_EDUBLOCKS
+            ? "No registrado"
+            : formatearTiempo(fila.tiempo_total_segundos),
         fecha: fila.fecha,
+
+        detalle_evidencia:
+          fila.juego_slug === "bucles-edublocks-01"
+            ? crearDetalleBucles(fila.evidencia_json)
+            : null,
 
         ...metricas,
       };

@@ -332,6 +332,13 @@ function renderizarResultados(intentos) {
       <td>
         <strong>${escapeHTML(intento.metrica_2_nombre || "Métrica 2")}:</strong>
         ${escapeHTML(String(intento.metrica_2_valor ?? "—"))}
+        ${
+          intento.detalle_evidencia
+            ? `<p class="detalle-evidencia" aria-label="Detalle pedagógico: ${escapeHTML(
+                intento.detalle_evidencia,
+              )}">${escapeHTML(intento.detalle_evidencia)}</p>`
+            : ""
+        }
       </td>
 
       <td>${escapeHTML(intento.tiempo || "—")}</td>

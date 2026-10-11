@@ -69,12 +69,23 @@ const actividadesAlgoritmos = [
   },
 ];
 
+const actividadesBloques = [
+  {
+    slug: "bucles-edublocks-01",
+    titulo: "Bucles en EduBlocks",
+    descripcion:
+      "Descubrí cómo for y range(n) permiten repetir instrucciones sin escribirlas una por una.",
+    url: "2026/cc7/programacion/bucles/index.html",
+  },
+];
+
 let mostrarTodasLasActividades = false;
 let estadosJuegos = new Map();
 
 document.addEventListener("DOMContentLoaded", () => {
   prepararBotonAlgoritmos();
   renderizarAlgoritmos();
+  renderizarBloques();
   controlarDisponibilidadJuegos();
 });
 
@@ -90,6 +101,37 @@ function prepararBotonAlgoritmos() {
       : "Ver todas las actividades";
     renderizarAlgoritmos();
   });
+}
+
+function renderizarBloques() {
+  const contenedor = document.querySelector("#bloquesGrid");
+  if (!contenedor) return;
+
+  contenedor.innerHTML = "";
+  const visibles = actividadesBloques.filter((actividad) => {
+    const estado = estadosJuegos.get(actividad.slug);
+    return !estado || estado.visible_en_hub !== false;
+  });
+
+  if (visibles.length === 0) {
+    contenedor.innerHTML = `
+      <article class="card card-programacion card-disabled full-width-card">
+        <h3>No hay actividades de bloques activas</h3>
+        <p>El docente habilitará la unidad cuando comience el trabajo en clase.</p>
+        <span class="btn btn-disabled">Actividad cerrada</span>
+      </article>
+    `;
+    return;
+  }
+
+  visibles.forEach((actividad) => {
+    const tarjeta = crearTarjetaActividad(actividad);
+    tarjeta.classList.remove("card-algoritmos");
+    tarjeta.classList.add("card-programacion");
+    contenedor.appendChild(tarjeta);
+  });
+
+  aplicarEstadosGuardados();
 }
 
 function renderizarAlgoritmos() {
@@ -170,7 +212,7 @@ function crearTarjetaActividad(actividad) {
 }
 
 async function controlarDisponibilidadJuegos() {
-  const juegos = actividadesAlgoritmos.filter(
+  const juegos = [...actividadesAlgoritmos, ...actividadesBloques].filter(
     (actividad) => actividad.slug && !actividad.proxima,
   );
 
@@ -200,6 +242,7 @@ async function controlarDisponibilidadJuegos() {
   }
 
   renderizarAlgoritmos();
+  renderizarBloques();
 }
 
 function aplicarEstadosGuardados() {
