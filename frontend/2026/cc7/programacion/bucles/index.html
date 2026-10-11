@@ -3,61 +3,975 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bucles en EduBlocks</title>
+    <meta name="theme-color" content="#00a99d" />
+    <meta
+      name="description"
+      content="Aprende estructuras de repetición con EduBlocks y Python."
+    />
+    <title>Bucles en EduBlocks | Profe Macón</title>
+
     <link rel="stylesheet" href="../../../../shared/base.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body>
+    <!-- ENCABEZADO INSTITUCIONAL -->
     <header class="site-header" id="siteHeader">
       <div class="header-container">
-        <a href="../../../../index.html" class="brand-link" aria-label="Inicio Profemacón Algoritmos"><img src="../../../../assets/logo-profe-macon.png" alt="Profe Macón" class="main-logo" /></a>
-        <span class="school-link"><img src="../../../../assets/logo-liceo-29.png" alt="Liceo 29 Alicia Goyena" class="school-logo" /></span>
-        <div class="title-block"><h1>PROGRAMACIÓN POR BLOQUES</h1><p>Bucles en EduBlocks</p></div>
-        <nav class="main-nav" aria-label="Navegación principal"><a href="../../../../index.html">Inicio</a><a href="../../../../index.html#bloques">Bloques</a><a href="../../../../docente/login.html">Docentes</a></nav>
+        <a
+          href="../../../../index.html"
+          class="brand-link"
+          aria-label="Inicio de Profe Macón"
+        >
+          <img
+            src="../../../../assets/logo-profe-macon.png"
+            alt="Profe Macón"
+            class="main-logo"
+          />
+        </a>
+
+        <span class="school-link">
+          <img
+            src="../../../../assets/logo-liceo-29.png"
+            alt="Liceo 29 Alicia Goyena"
+            class="school-logo"
+          />
+        </span>
+
+        <div class="title-block">
+          <h1>PROGRAMACIÓN POR BLOQUES</h1>
+          <p>Aprendemos a repetir instrucciones</p>
+        </div>
+
+        <nav class="main-nav" aria-label="Navegación principal">
+          <a href="../../../../index.html">Inicio</a>
+          <a href="../../../../index.html#bloques">Bloques</a>
+          <a href="../../../../docente/login.html">Docentes</a>
+        </nav>
       </div>
     </header>
-    <main>
-      <section class="hero mission-hero"><h2>Bucles en EduBlocks</h2><p>Meta: comprender que <strong>for</strong> permite ejecutar repetidamente un conjunto de instrucciones.</p></section>
+
+    <main id="contenidoPrincipal">
+      <!-- PRESENTACIÓN -->
+      <section class="hero mission-hero">
+        <div class="hero-content">
+          <p class="eyebrow">Ciencias de la Computación · 7.º</p>
+          <h2>¿Otra vez lo mismo?</h2>
+          <p>
+            Descubre cómo hacer que una computadora repita instrucciones sin
+            escribirlas muchas veces.
+          </p>
+        </div>
+      </section>
+
       <section class="layout-game">
+        <!-- INGRESO EXISTENTE: NO CAMBIAR LOS ID -->
         <article class="form-card panel-ingreso" id="panelIngreso">
-          <h2 class="section-title">Ingreso a la unidad</h2>
-          <p class="help-text">Elegí tu grupo y tu nombre de las listas.</p>
-          <div class="form-row"><label for="grupoSelect">Grupo</label><select id="grupoSelect"><option>Cargando grupos…</option></select></div>
-          <div class="form-row"><label for="estudianteSelect">Estudiante</label><select id="estudianteSelect" disabled><option>Primero elegí un grupo</option></select></div>
-          <button id="btnEntrar" type="button" disabled>Entrar a la unidad</button><p id="estadoIngreso" class="status-message" aria-live="polite"></p>
+          <h2 class="section-title">Antes de comenzar</h2>
+          <p class="help-text">Selecciona tu grupo y tu nombre.</p>
+
+          <div class="form-row">
+            <label for="grupoSelect">Tu grupo</label>
+            <select id="grupoSelect">
+              <option value="">Cargando grupos…</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="estudianteSelect">Tu nombre</label>
+            <select id="estudianteSelect" disabled>
+              <option value="">Primero selecciona tu grupo</option>
+            </select>
+          </div>
+
+          <button id="btnEntrar" type="button" disabled>
+            Comenzar la aventura
+          </button>
+
+          <p
+            id="estadoIngreso"
+            class="status-message"
+            role="status"
+            aria-live="polite"
+          ></p>
+
+          <div class="ayuda-ingreso">
+            <p>
+              Trabajarás en dupla durante las actividades, pero la comprobación
+              final será individual.
+            </p>
+          </div>
         </article>
+
+        <!-- UNIDAD: OCULTA HASTA EL INGRESO -->
         <article class="card panel-unidad is-hidden" id="panelUnidad">
-          <div class="unit-top"><div><h2 id="nombreJugador">Estudiante</h2><p id="grupoJugador" class="muted"></p></div><button id="btnVolver" class="btn-secondary" type="button">Cambiar estudiante</button></div>
-          <p id="estadoUnidad" class="estado-unidad" aria-live="polite">Podés explorar los recursos en el orden que prefieras.</p>
+          <!-- IDENTIFICACIÓN -->
+          <div class="unit-top">
+            <div>
+              <p class="eyebrow">Estás trabajando como</p>
+              <h2 id="nombreJugador">Estudiante</h2>
+              <p id="grupoJugador" class="muted"></p>
+            </div>
 
-          <section class="momento" aria-labelledby="inicioTitulo">
-            <p class="eyebrow">A. Inicio colectivo</p><h3 id="inicioTitulo">¿Por qué repetir?</h3>
-            <p>Queremos mostrar los números del 1 al 5. Sin una herramienta nueva, habría que escribir <code>print()</code> cinco veces.</p>
-            <fieldset><legend>Antes de conocer una solución</legend><p>¿Qué idea podría simplificar esas cinco instrucciones parecidas?</p><label><input type="radio" name="descubrimiento" value="repetir" /> Indicar una vez qué acción se repite y cuántas veces.</label><label><input type="radio" name="descubrimiento" value="copiar" /> Copiar y pegar la misma instrucción cinco veces.</label><button id="btnDescubrir" type="button">Ver una forma de simplificarlo</button><p id="feedbackDescubrimiento" aria-live="polite"></p></fieldset>
-            <div id="explicacionBucle" class="is-hidden"><p>Para evitar copiar la misma instrucción, usamos <strong>for</strong>: organiza una acción que se repite. <strong>range(5)</strong> organiza cinco vueltas.</p>
-            <div class="code-compare"><div><h4>Bloques</h4><p class="pseudo-block">repetir 5 veces<br />&nbsp;&nbsp;mostrar número</p></div><div><h4>Python equivalente</h4><pre><code>for numero in range(5):
-    print(numero + 1)</code></pre></div></div>
-            <p>En cada vuelta se ejecuta lo que está dentro del bucle.</p>
-            <fieldset><legend>Primera predicción</legend><p>¿Cuántas veces se ejecuta <code>print()</code> en un <code>for</code> con <code>range(4)</code>?</p><label><input type="radio" name="prediccionInicial" value="3" /> 3 veces</label><label><input type="radio" name="prediccionInicial" value="4" /> 4 veces</label><label><input type="radio" name="prediccionInicial" value="5" /> 5 veces</label><button id="btnPrediccionInicial" type="button">Comprobar predicción</button><p id="feedbackPrediccion" aria-live="polite"></p></fieldset></div>
+            <button id="btnVolver" class="btn-secondary" type="button">
+              Cambiar estudiante
+            </button>
+          </div>
+
+          <p
+            id="estadoUnidad"
+            class="estado-unidad"
+            role="status"
+            aria-live="polite"
+          ></p>
+
+          <!-- PROGRESO -->
+          <nav class="navegacion-unidad" aria-label="Etapas de aprendizaje">
+            <ol class="pasos-unidad">
+              <li>
+                <button
+                  type="button"
+                  class="paso-nav is-active"
+                  data-etapa="descubrir"
+                  aria-current="step"
+                >
+                  <span class="paso-numero">1</span>
+                  <span>Descubrimos</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="paso-nav" data-etapa="explorar">
+                  <span class="paso-numero">2</span>
+                  <span>Exploramos</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="paso-nav" data-etapa="construir">
+                  <span class="paso-numero">3</span>
+                  <span>Construimos</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="paso-nav" data-etapa="comprobar">
+                  <span class="paso-numero">4</span>
+                  <span>Comprobamos</span>
+                </button>
+              </li>
+            </ol>
+          </nav>
+
+          <!-- ====================================== -->
+          <!-- ETAPA 1: DESCUBRIR LA NECESIDAD       -->
+          <!-- ====================================== -->
+          <section
+            id="etapaDescubrir"
+            class="etapa"
+            data-etapa-panel="descubrir"
+            aria-labelledby="inicioTitulo"
+          >
+            <p class="eyebrow">Etapa 1 · Inicio colectivo</p>
+            <h2 id="inicioTitulo">¿Por qué necesitamos repetir?</h2>
+
+            <div class="instruccion-principal">
+              <span class="etiqueta-mision">Tu primera misión</span>
+              <p>
+                Queremos que un programa escriba
+                <strong>«Hola» cinco veces</strong>.
+              </p>
+            </div>
+
+            <div class="actividad-contenido">
+              <h3>1. Observa este programa</h3>
+              <p>
+                Ya conoces <code>print()</code>. Mira cómo podemos resolverlo.
+              </p>
+
+              <div class="codigo-grande">
+                <div class="codigo-encabezado">Python</div>
+                <pre><code>print("Hola")
+print("Hola")
+print("Hola")
+print("Hola")
+print("Hola")</code></pre>
+              </div>
+
+              <button id="btnEjecutarManual" type="button" class="btn-accion">
+                ▶ Ejecutar el programa
+              </button>
+
+              <div
+                id="salidaManual"
+                class="consola-salida is-hidden"
+                role="status"
+                aria-live="polite"
+              >
+                <h4>Salida del programa</h4>
+                <pre>
+Hola
+Hola
+Hola
+Hola
+Hola</pre
+                >
+              </div>
+            </div>
+
+            <div class="actividad-contenido">
+              <h3>2. Ahora imagina...</h3>
+              <p class="pregunta-destacada">
+                ¿Qué pasaría si necesitáramos escribir «Hola» treinta veces?
+              </p>
+
+              <fieldset class="opciones-grandes">
+                <legend>¿Cuál de estas ideas parece mejor?</legend>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="descubrimiento" value="copiar" />
+                  Escribir treinta instrucciones iguales.
+                </label>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="descubrimiento" value="repetir" />
+                  Buscar una instrucción que repita la acción.
+                </label>
+              </fieldset>
+
+              <button id="btnDescubrir" type="button" class="btn-accion">
+                Descubrir una solución
+              </button>
+
+              <p
+                id="feedbackDescubrimiento"
+                class="feedback"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <!-- SOLUCIÓN REVELADA DESPUÉS DE RESPONDER -->
+            <div id="explicacionBucle" class="is-hidden">
+              <div class="descubrimiento-revelado">
+                <h3>¡Existe una forma más sencilla!</h3>
+                <p>
+                  Podemos utilizar una estructura de repetición llamada
+                  <strong>for</strong>.
+                </p>
+
+                <figure class="imagen-didactica">
+                  <img
+                    src="assets/bucles-8.png"
+                    alt="Comparación entre escribir cinco instrucciones print y utilizar un bucle for."
+                    loading="lazy"
+                  />
+                  <figcaption>
+                    Dos programas diferentes pueden producir el mismo resultado.
+                  </figcaption>
+                </figure>
+
+                <div class="codigo-grande">
+                  <div class="codigo-encabezado">La nueva solución</div>
+                  <pre><code>for i in range(5):
+    print("Hola")</code></pre>
+                </div>
+
+                <p class="idea-clave">
+                  Lo que colocamos dentro del
+                  <code>for</code> se repite cinco veces.
+                </p>
+              </div>
+            </div>
+
+            <div class="navegacion-etapa">
+              <span></span>
+              <button
+                id="btnContinuarDescubrir"
+                type="button"
+                class="btn-siguiente"
+                disabled
+              >
+                Continuar: conocer el for →
+              </button>
+            </div>
           </section>
 
-          <section class="momento" aria-labelledby="tallerTitulo"><p class="eyebrow">B. Taller diferenciado</p><h3 id="tallerTitulo">Elegí un recorrido</h3><p>Mismo problema central: repetir una acción numerada del 1 al 5. Podés cambiar sin penalización.</p>
-            <div class="recorridos" role="group" aria-label="Recorridos"><button class="recorrido-btn" data-recorrido="inicial" type="button">Inicial: con apoyo</button><button class="recorrido-btn" data-recorrido="guiado" type="button">Guiado: paso a paso</button><button class="recorrido-btn" data-recorrido="desafio" type="button">Desafío: autonomía</button></div>
-            <div id="contenidoRecorrido" class="recorrido-contenido" tabindex="-1"></div>
-            <div class="recursos"><h4>Recursos disponibles</h4><p>Usalos cuando te sirvan; no son pasos obligatorios.</p><div class="button-row"><button data-recurso="simulador" type="button">Simulador</button><button data-recurso="predicciones" type="button">Predicción</button><button data-recurso="construccion" type="button">Construcción</button><button data-recurso="depuracion" type="button">Depuración</button><button data-recurso="ampliacion" type="button">Ampliación</button></div><div id="recursoPanel" class="recurso-panel" aria-live="polite"></div></div>
-            <div class="edublocks-card"><h4>Probalo en EduBlocks</h4><p>Tarea: construí un programa que imprima los números del 1 al 5 usando un bloque de repetición.</p><a id="linkEduBlocks" class="btn" href="#" target="_blank" rel="noopener">Abrir EduBlocks en otra pestaña</a><label class="check-label"><input id="edublocksProbado" type="checkbox" /> Lo probamos en EduBlocks</label><p class="muted">La plataforma no verifica el código: esta declaración la realiza el equipo.</p></div>
+          <!-- ====================================== -->
+          <!-- ETAPA 2: EXPLORAR                     -->
+          <!-- ====================================== -->
+          <section
+            id="etapaExplorar"
+            class="etapa is-hidden"
+            data-etapa-panel="explorar"
+            aria-labelledby="explorarTitulo"
+          >
+            <p class="eyebrow">Etapa 2 · Exploración guiada</p>
+            <h2 id="explorarTitulo">Conozcamos el bloque for</h2>
+
+            <div class="instruccion-principal">
+              <span class="etiqueta-mision">Vamos a investigar</span>
+              <p>
+                Observa los bloques y descubre cómo funciona una repetición.
+              </p>
+            </div>
+
+            <div class="actividad-contenido">
+              <h3>1. ¿Dónde encontramos el bloque?</h3>
+              <p>
+                En EduBlocks, selecciona la categoría
+                <strong>Loops</strong>.
+              </p>
+
+              <figure class="imagen-didactica">
+                <img
+                  src="assets/bucles-1.png"
+                  alt="Categoría Loops de EduBlocks con los bloques de repetición."
+                  loading="lazy"
+                />
+              </figure>
+
+              <h3>2. Conoce sus partes</h3>
+
+              <figure class="imagen-didactica">
+                <img
+                  src="assets/bucles-2.png"
+                  alt="Bloque for de EduBlocks con la cantidad de repeticiones y el espacio para instrucciones."
+                  loading="lazy"
+                />
+              </figure>
+
+              <p class="idea-clave">
+                <code>range(5)</code> significa que el bucle realizará cinco
+                vueltas.
+              </p>
+            </div>
+
+            <div class="actividad-contenido">
+              <h3>3. ¿Qué parte se repite?</h3>
+
+              <figure class="imagen-didactica">
+                <img
+                  src="assets/bucles-3.png"
+                  alt="Bloque for con una instrucción print colocada en su interior."
+                  loading="lazy"
+                />
+              </figure>
+
+              <figure class="imagen-didactica imagen-apoyo">
+                <img
+                  src="assets/bucles-9.png"
+                  alt="Explicación visual de cómo la instrucción interior se ejecuta en cada vuelta."
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+
+            <!-- PREDICCIÓN INTERACTIVA -->
+            <div class="actividad-contenido">
+              <h3>4. Antes de ejecutar, piensa</h3>
+
+              <div class="codigo-grande">
+                <div class="codigo-encabezado">¿Qué sucederá?</div>
+                <pre><code>for i in range(4):
+    print("Hola")</code></pre>
+              </div>
+
+              <fieldset class="opciones-grandes">
+                <legend>¿Cuántas veces aparecerá «Hola»?</legend>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="prediccionInicial" value="3" />
+                  Tres veces
+                </label>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="prediccionInicial" value="4" />
+                  Cuatro veces
+                </label>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="prediccionInicial" value="5" />
+                  Cinco veces
+                </label>
+              </fieldset>
+
+              <button
+                id="btnPrediccionInicial"
+                type="button"
+                class="btn-accion"
+              >
+                Comprobar mi predicción
+              </button>
+
+              <p
+                id="feedbackPrediccion"
+                class="feedback"
+                aria-live="polite"
+              ></p>
+            </div>
+
+            <!-- SIMULADOR -->
+            <div class="actividad-contenido">
+              <h3>5. Experimenta con el simulador</h3>
+              <p>
+                Cambia la cantidad de vueltas. Luego ejecuta el programa paso a
+                paso.
+              </p>
+
+              <div class="simulador-interactivo">
+                <div class="simulador-config">
+                  <label for="cantidadVueltas">
+                    ¿Cuántas vueltas quieres probar?
+                  </label>
+
+                  <input
+                    type="number"
+                    id="cantidadVueltas"
+                    min="1"
+                    max="10"
+                    value="5"
+                  />
+                </div>
+
+                <div class="codigo-grande">
+                  <div class="codigo-encabezado">
+                    Programa que vamos a simular
+                  </div>
+                  <pre><code id="codigoSimulador">for i in range(5):
+    print("Hola")</code></pre>
+                </div>
+
+                <div class="simulador-datos" aria-live="polite">
+                  <div class="simulador-dato">
+                    <span>Vuelta actual</span>
+                    <strong id="numeroVuelta">0</strong>
+                  </div>
+
+                  <div class="simulador-dato">
+                    <span>Valor de i</span>
+                    <strong id="valorVariable">—</strong>
+                  </div>
+
+                  <div class="simulador-dato">
+                    <span>Repeticiones</span>
+                    <strong id="totalVueltas">5</strong>
+                  </div>
+                </div>
+
+                <div class="consola-salida">
+                  <h4>Salida del programa</h4>
+                  <pre id="salidaSimulador" aria-live="polite">
+Todavía no ejecutaste ninguna vuelta.</pre
+                  >
+                </div>
+
+                <div class="button-row">
+                  <button id="btnSimAvanzar" type="button">
+                    ▶ Ejecutar una vuelta
+                  </button>
+
+                  <button
+                    id="btnSimRetroceder"
+                    type="button"
+                    class="btn-secondary"
+                  >
+                    ← Retroceder
+                  </button>
+
+                  <button
+                    id="btnSimReiniciar"
+                    type="button"
+                    class="btn-secondary"
+                  >
+                    Reiniciar
+                  </button>
+                </div>
+              </div>
+
+              <details class="ayuda-visual">
+                <summary>Ver una explicación de las vueltas</summary>
+
+                <figure class="imagen-didactica">
+                  <img
+                    src="assets/bucles-10.png"
+                    alt="Las cinco vueltas de un bucle for y los valores que puede imprimir."
+                    loading="lazy"
+                  />
+                </figure>
+
+                <figure class="imagen-didactica">
+                  <img
+                    src="assets/bucles-11.png"
+                    alt="Explicación de range(5) y sus valores de cero a cuatro."
+                    loading="lazy"
+                  />
+                </figure>
+              </details>
+            </div>
+
+            <div class="navegacion-etapa">
+              <button
+                type="button"
+                class="btn-anterior"
+                data-volver="descubrir"
+              >
+                ← Anterior
+              </button>
+
+              <button
+                id="btnContinuarExplorar"
+                type="button"
+                class="btn-siguiente"
+              >
+                Continuar: construir →
+              </button>
+            </div>
           </section>
 
-          <section class="momento" aria-labelledby="comprobacionTitulo"><p class="eyebrow">C. Comprobación individual</p><h3 id="comprobacionTitulo">Tres preguntas</h3><p>Respondé las tres. Esta es la única entrega formal; practicar sigue disponible después.</p>
-            <form id="formComprobacion"><fieldset><legend>1. Repetición</legend><p>¿Para qué sirve <code>for</code> en este caso?</p><label><input required type="radio" name="q1" value="a" /> Para repetir instrucciones.</label><label><input type="radio" name="q1" value="b" /> Para detener el programa.</label><label><input type="radio" name="q1" value="c" /> Para guardar una lista.</label></fieldset><fieldset><legend>2. Predicción</legend><p>¿Qué muestra este programa?</p><pre><code>for numero in range(3):
-    print(numero)</code></pre><label><input required type="radio" name="q2" value="a" /> 1, 2 y 3</label><label><input type="radio" name="q2" value="b" /> 0, 1 y 2</label><label><input type="radio" name="q2" value="c" /> Solo 3</label></fieldset><fieldset><legend>3. Encontrar un error</legend><p>¿Qué error tiene este código?</p><pre><code>for numero in range(4)
-    print(numero)</code></pre><label><input required type="radio" name="q3" value="a" /> Falta <code>:</code> al final de la primera línea.</label><label><input type="radio" name="q3" value="b" /> Sobran cuatro repeticiones.</label><label><input type="radio" name="q3" value="c" /> <code>print()</code> no puede estar dentro del bucle.</label></fieldset><label class="check-label"><input id="confirmarEntrega" type="checkbox" required /> Confirmo que quiero entregar esta comprobación.</label><button id="btnEnviar" type="submit">Entregar comprobación</button></form><div id="resultadoEntrega" class="resultado" aria-live="polite"></div>
+          <!-- ====================================== -->
+          <!-- ETAPA 3: TALLER DIFERENCIADO          -->
+          <!-- ====================================== -->
+          <section
+            id="etapaConstruir"
+            class="etapa is-hidden"
+            data-etapa-panel="construir"
+            aria-labelledby="tallerTitulo"
+          >
+            <p class="eyebrow">Etapa 3 · Taller en duplas</p>
+            <h2 id="tallerTitulo">Ahora te toca programar</h2>
+
+            <div class="instruccion-principal">
+              <span class="etiqueta-mision">Un problema, tres caminos</span>
+              <p>
+                Construye un programa que utilice
+                <code>for</code> para repetir instrucciones.
+              </p>
+            </div>
+
+            <div class="roles-dupla">
+              <p>
+                <strong>Piloto:</strong> manipula los bloques.
+                <strong>Navegante:</strong> lee los pasos y comprueba.
+              </p>
+              <p>Cuando lo indique el docente, intercambien los roles.</p>
+            </div>
+
+            <h3>Elige cómo quieres trabajar</h3>
+            <p>
+              Puedes cambiar de recorrido si necesitas más ayuda o quieres un
+              desafío mayor.
+            </p>
+
+            <div
+              class="recorridos"
+              role="group"
+              aria-label="Recorridos de aprendizaje"
+            >
+              <button
+                class="recorrido-btn"
+                data-recorrido="inicial"
+                aria-pressed="false"
+                type="button"
+              >
+                <span class="recorrido-icono">①</span>
+                <strong>Construyo con ayuda</strong>
+                <small>Ejemplos, imágenes y pistas</small>
+              </button>
+
+              <button
+                class="recorrido-btn"
+                data-recorrido="guiado"
+                aria-pressed="false"
+                type="button"
+              >
+                <span class="recorrido-icono">②</span>
+                <strong>Construyo paso a paso</strong>
+                <small>Consignas y comprobaciones</small>
+              </button>
+
+              <button
+                class="recorrido-btn"
+                data-recorrido="desafio"
+                aria-pressed="false"
+                type="button"
+              >
+                <span class="recorrido-icono">③</span>
+                <strong>Resuelvo un desafío</strong>
+                <small>Más decisiones y autonomía</small>
+              </button>
+            </div>
+
+            <!-- CONTENIDO ESPECÍFICO DE CADA RECORRIDO -->
+            <div
+              id="contenidoRecorrido"
+              class="recorrido-contenido"
+              tabindex="-1"
+              aria-live="polite"
+            >
+              <p>Selecciona uno de los tres recorridos para comenzar.</p>
+            </div>
+
+            <!-- ZONA DE PRÁCTICA INTERACTIVA -->
+            <div class="actividad-contenido">
+              <h3>Practica antes de pasar a EduBlocks</h3>
+              <p>
+                Prueba la misión propuesta en tu recorrido. Utiliza las pistas
+                si las necesitas.
+              </p>
+
+              <div
+                id="practicaRecorrido"
+                class="practica-recorrido"
+                aria-live="polite"
+              ></div>
+
+              <div id="pistasRecorrido" class="pistas-recorrido"></div>
+            </div>
+
+            <!-- EDUBLOCKS -->
+            <div class="edublocks-card">
+              <h3>Construye y prueba en EduBlocks</h3>
+
+              <p id="consignaEduBlocks">
+                Selecciona un recorrido para ver tu misión.
+              </p>
+
+              <a
+                id="linkEduBlocks"
+                class="btn btn-edublocks"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Abrir EduBlocks ↗
+              </a>
+
+              <p class="muted">
+                EduBlocks se abrirá en otra pestaña. Regresa aquí cuando
+                termines de probar.
+              </p>
+
+              <label class="check-label">
+                <input type="checkbox" id="edublocksProbado" />
+                Probamos nuestro programa en EduBlocks.
+              </label>
+
+              <p class="muted">
+                Esta confirmación es del equipo. La página no comprueba
+                automáticamente el código.
+              </p>
+            </div>
+
+            <!-- DEPURACIÓN -->
+            <div class="actividad-contenido">
+              <h3>Encuentra el error</h3>
+              <p>
+                Observa el programa y piensa por qué no hace lo que esperamos.
+              </p>
+
+              <figure class="imagen-didactica">
+                <img
+                  src="assets/bucles-6-1.png"
+                  alt="Un programa con el bloque print fuera del bucle for. Se pide encontrar el error."
+                  loading="lazy"
+                />
+              </figure>
+
+              <fieldset class="opciones-grandes">
+                <legend>
+                  ¿Qué debemos cambiar para imprimir los números del 1 al 5?
+                </legend>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="errorBloques" value="rango" />
+                  Cambiar el rango por 1 y 5.
+                </label>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="errorBloques" value="interior" />
+                  Colocar el bloque print dentro del for.
+                </label>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="errorBloques" value="eliminar" />
+                  Eliminar el bloque for.
+                </label>
+              </fieldset>
+
+              <button id="btnComprobarError" type="button" class="btn-accion">
+                Comprobar mi respuesta
+              </button>
+
+              <p id="feedbackError" class="feedback" aria-live="polite"></p>
+
+              <!-- NO REVELAR ANTES DE RESPONDER -->
+              <div id="solucionError" class="is-hidden">
+                <h4>Observa la solución</h4>
+
+                <figure class="imagen-didactica">
+                  <img
+                    src="assets/bucles-6-2.png"
+                    alt="Comparación entre un print fuera del for y la versión correcta dentro del bucle."
+                    loading="lazy"
+                  />
+                </figure>
+              </div>
+            </div>
+
+            <!-- MATERIALES DE CONSULTA -->
+            <details class="biblioteca-apoyo">
+              <summary>Necesito consultar más ejemplos</summary>
+
+              <figure class="imagen-didactica">
+                <img
+                  src="assets/bucles-4.png"
+                  alt="Programa EduBlocks que imprime Hola cinco veces."
+                  loading="lazy"
+                />
+              </figure>
+
+              <figure class="imagen-didactica">
+                <img
+                  src="assets/bucles-12.png"
+                  alt="Diferencia entre el valor de la variable i y la salida del programa."
+                  loading="lazy"
+                />
+              </figure>
+
+              <figure class="imagen-didactica">
+                <img
+                  src="assets/bucles-13.png"
+                  alt="Guía visual para construir y probar un bucle en EduBlocks."
+                  loading="lazy"
+                />
+              </figure>
+
+              <div class="apoyo-avanzado">
+                <h4>Para seguir investigando</h4>
+                <figure class="imagen-didactica">
+                  <img
+                    src="assets/bucles-5.png"
+                    alt="Ejemplo de range con inicio y fin, donde el número final no se incluye."
+                    loading="lazy"
+                  />
+                </figure>
+              </div>
+            </details>
+
+            <div class="navegacion-etapa">
+              <button type="button" class="btn-anterior" data-volver="explorar">
+                ← Anterior
+              </button>
+
+              <button
+                id="btnContinuarConstruir"
+                type="button"
+                class="btn-siguiente"
+              >
+                Continuar: comprobar →
+              </button>
+            </div>
           </section>
-          <section class="plan-b" aria-labelledby="planBTitulo"><h3 id="planBTitulo">Plan B sin conexión</h3><p>Si no hay conexión, imprimí esta sección o resolvela en papel.</p><ol><li>Escribí una instrucción que se repetiría cinco veces.</li><li>Marcá cuántas veces se ejecuta <code>print()</code> con <code>range(4)</code>.</li><li>Dibujá las cinco vueltas de un bucle para mostrar 1, 2, 3, 4 y 5.</li><li>Corregí: <code>for numero in range(3)</code>.</li></ol><p><strong>Qué entregar:</strong> tus tres respuestas y una explicación corta de qué repite el bucle.</p></section>
+
+          <!-- ====================================== -->
+          <!-- ETAPA 4: COMPROBACIÓN INDIVIDUAL      -->
+          <!-- ====================================== -->
+          <section
+            id="etapaComprobar"
+            class="etapa is-hidden"
+            data-etapa-panel="comprobar"
+            aria-labelledby="comprobacionTitulo"
+          >
+            <p class="eyebrow">Etapa 4 · Trabajo individual</p>
+            <h2 id="comprobacionTitulo">¿Qué aprendiste?</h2>
+
+            <div class="instruccion-principal">
+              <span class="etiqueta-mision">Tres preguntas</span>
+              <p>
+                Ahora responde individualmente. Puedes pensar con calma antes de
+                entregar.
+              </p>
+            </div>
+
+            <!-- FORMULARIO QUE CONSERVA LOS NOMBRES q1 q2 q3 -->
+            <form id="formComprobacion">
+              <fieldset class="pregunta-evaluacion">
+                <legend>1. Comprender la repetición</legend>
+
+                <p>¿Para qué sirve la estructura <code>for</code>?</p>
+
+                <label class="opcion-respuesta">
+                  <input required type="radio" name="q1" value="a" />
+                  Para repetir instrucciones.
+                </label>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="q1" value="b" />
+                  Para detener el programa.
+                </label>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="q1" value="c" />
+                  Para guardar una lista.
+                </label>
+              </fieldset>
+
+              <fieldset class="pregunta-evaluacion">
+                <legend>2. Predecir un resultado</legend>
+
+                <p>Observa este programa:</p>
+
+                <div class="codigo-grande">
+                  <div class="codigo-encabezado">Python</div>
+                  <pre><code>for i in range(3):
+    print(i)</code></pre>
+                </div>
+
+                <p>¿Qué números aparecerán?</p>
+
+                <label class="opcion-respuesta">
+                  <input required type="radio" name="q2" value="a" />
+                  1, 2 y 3
+                </label>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="q2" value="b" />
+                  0, 1 y 2
+                </label>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="q2" value="c" />
+                  Solo 3
+                </label>
+              </fieldset>
+
+              <fieldset class="pregunta-evaluacion">
+                <legend>3. Reconocer un error</legend>
+
+                <p>Observa este programa:</p>
+
+                <div class="codigo-grande">
+                  <div class="codigo-encabezado">Python</div>
+                  <pre><code>for i in range(4)
+    print(i)</code></pre>
+                </div>
+
+                <p>¿Qué falta para que funcione?</p>
+
+                <label class="opcion-respuesta">
+                  <input required type="radio" name="q3" value="a" />
+                  Los dos puntos al final de la primera línea.
+                </label>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="q3" value="b" />
+                  Una segunda instrucción for.
+                </label>
+
+                <label class="opcion-respuesta">
+                  <input type="radio" name="q3" value="c" />
+                  Sacar print del bucle.
+                </label>
+              </fieldset>
+
+              <div class="confirmacion-entrega">
+                <label class="check-label">
+                  <input id="confirmarEntrega" type="checkbox" required />
+                  Revisé mis respuestas y quiero entregarlas.
+                </label>
+
+                <p class="muted">
+                  Esta comprobación se guardará con tu nombre y grupo. No se
+                  publica para otros estudiantes.
+                </p>
+
+                <button id="btnEnviar" type="submit" class="btn-siguiente">
+                  Entregar mis respuestas
+                </button>
+              </div>
+            </form>
+
+            <div
+              id="resultadoEntrega"
+              class="resultado"
+              role="status"
+              aria-live="polite"
+            ></div>
+
+            <div class="navegacion-etapa">
+              <button
+                type="button"
+                class="btn-anterior"
+                data-volver="construir"
+              >
+                ← Volver al taller
+              </button>
+            </div>
+          </section>
+
+          <!-- ====================================== -->
+          <!-- PLAN B: ACTIVIDAD DESENCHUFADA        -->
+          <!-- ====================================== -->
+          <section
+            class="plan-b is-hidden"
+            id="planB"
+            aria-labelledby="planBTitulo"
+          >
+            <h2 id="planBTitulo">Misión sin computadora</h2>
+
+            <p>
+              Si no podemos utilizar EduBlocks, resolveremos el problema en
+              papel.
+            </p>
+
+            <ol>
+              <li>Escribe una instrucción para mostrar «Hola» cinco veces.</li>
+              <li>
+                Dibuja cinco casillas que representen las vueltas de un bucle.
+              </li>
+              <li>
+                Indica cuántas vueltas ejecuta
+                <code>range(4)</code>.
+              </li>
+              <li>
+                Explica cuál es la instrucción que se repite en el programa.
+              </li>
+            </ol>
+
+            <p>
+              <strong>Qué entregar:</strong>
+              la ficha con las vueltas representadas y tus respuestas.
+            </p>
+          </section>
+
+          <div class="herramientas-unidad">
+            <button
+              id="btnMostrarPlanB"
+              class="btn-secondary"
+              type="button"
+              aria-expanded="false"
+              aria-controls="planB"
+            >
+              Ver actividad sin computadora
+            </button>
+
+            <button
+              id="btnImprimirPlanB"
+              class="btn-secondary is-hidden"
+              type="button"
+            >
+              Imprimir actividad
+            </button>
+          </div>
         </article>
       </section>
     </main>
-    <footer><p>Profemacón Algoritmos</p><small>Explorá, probá y explicá.</small></footer>
-    <script src="../../../../shared/header.js"></script><script src="config.js"></script><script src="script.js"></script>
+
+    <footer>
+      <p>Profemacón Algoritmos</p>
+      <small>Observa, prueba, corrige y aprende.</small>
+    </footer>
+
+    <!-- CONFIGURACIÓN Y SCRIPTS EXISTENTES -->
+    <script src="../../../../shared/header.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>

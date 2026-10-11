@@ -1,33 +1,1475 @@
-.layout-game { display: grid; grid-template-columns: minmax(280px, 380px) minmax(0, 1fr); gap: 24px; align-items: start; }
-.is-hidden { display: none !important; }
-.help-text, .muted { color: var(--gray-dark); }
-.status-message, .estado-unidad { font-weight: bold; margin-top: 14px; }
-.panel-unidad { border-top-color: var(--violet); }
-.layout-game.solo-unidad { display: block; max-width: 1060px; margin: auto; }
-.unit-top { display: flex; justify-content: space-between; gap: 16px; align-items: center; }
-.momento, .plan-b { margin-top: 28px; padding: 22px; border: 1px solid var(--gray); border-radius: 14px; background: var(--white); }
-.eyebrow { color: #5c457f; font-size: .86rem; font-weight: bold; text-transform: uppercase; letter-spacing: .06em; }
-.momento h3, .plan-b h3 { margin: 4px 0 12px; }
-.code-compare, .recorridos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 16px 0; }
-.code-compare > div, .recorrido-contenido, .recurso-panel, .edublocks-card { padding: 16px; border-radius: 12px; background: var(--gray-light); }
-pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 12px; background: #201b28; color: #fff; border-radius: 10px; margin: 10px 0; }
-.pseudo-block { background: #804ba0; color: white !important; padding: 12px; border-radius: 10px; font-weight: bold; }
-fieldset { border: 1px solid var(--gray); border-radius: 10px; padding: 14px; margin: 16px 0; }
-legend { font-weight: bold; padding: 0 6px; }
-fieldset label, .check-label { display: block; margin: 9px 0; font-weight: normal; }
-input[type="radio"], input[type="checkbox"] { width: auto; margin-right: 8px; accent-color: var(--teal); }
-.recorridos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.recorrido-btn[aria-pressed="true"] { background: var(--black); outline: 3px solid var(--teal); }
-.button-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
-.recurso-panel { min-height: 72px; border-left: 5px solid var(--teal); }
-.simulador-datos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 12px 0; }
-.simulador-dato { background: var(--white); border: 1px solid var(--gray); border-radius: 8px; padding: 10px; }
-.simulador-dato strong { display: block; margin-top: 4px; }
-.edublocks-card { margin-top: 16px; border-left: 5px solid var(--violet); }
-.resultado { margin-top: 16px; padding: 14px; background: var(--gray-light); border-radius: 10px; font-weight: bold; }
-.resultado.ok { border-left: 5px solid var(--teal); }.resultado.error { border-left: 5px solid #bd3a3a; }
-button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #1b75bb; outline-offset: 3px; }
-@media (max-width: 900px) { .layout-game { grid-template-columns: 1fr; }.code-compare, .recorridos { grid-template-columns: 1fr; }.unit-top { align-items: flex-start; flex-direction: column; } }
-@media (max-width: 620px) { .simulador-datos { grid-template-columns: 1fr; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
-@media print { .site-header, footer, .panel-ingreso, .unit-top, .estado-unidad, .recorridos, .recursos, .edublocks-card, #formComprobacion, #resultadoEntrega { display: none !important; } body, main { background: white; padding: 0; } .hero { color: black; background: white; box-shadow: none; padding: 0; } .momento { display: none; } .plan-b { display: block; border: 1px solid #000; margin: 0; } }
+/* =========================================================
+   BUCLES EN EDUBLOCKS · CIENCIAS DE LA COMPUTACIÓN 7.º
+   Rediseño pedagógico: descubrimiento, exploración,
+   taller diferenciado y comprobación individual.
+
+   Compatible con:
+   - ../../../../shared/base.css
+   - index.html (nueva versión)
+   - script.js (nueva versión)
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. VARIABLES Y BASE
+   --------------------------------------------------------- */
+
+:root {
+  --bucles-violeta: #69509f;
+  --bucles-violeta-oscuro: #432875;
+  --bucles-violeta-claro: #eee9f8;
+
+  --bucles-turquesa: #008f85;
+  --bucles-turquesa-oscuro: #00746b;
+  --bucles-turquesa-claro: #e4f7f4;
+
+  --bucles-azul: #2563b8;
+  --bucles-azul-claro: #e9f3ff;
+
+  --bucles-naranja: #a85b00;
+  --bucles-naranja-claro: #fff1d9;
+
+  --bucles-verde: #147d46;
+  --bucles-verde-claro: #e5f7ec;
+
+  --bucles-rojo: #ad2642;
+  --bucles-rojo-claro: #fff0f3;
+
+  --bucles-texto: #19223a;
+  --bucles-texto-suave: #505b70;
+  --bucles-borde: #d9dce6;
+  --bucles-fondo: #f5f4f8;
+  --bucles-blanco: #ffffff;
+
+  --bucles-codigo-fondo: #211d2b;
+  --bucles-codigo-texto: #f8f7ff;
+
+  --bucles-radio: 16px;
+  --bucles-sombra: 0 8px 25px rgba(30, 25, 55, 0.08);
+
+  --bucles-ancho: 1080px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 105px;
+}
+
+body {
+  background: var(--bucles-fondo);
+  color: var(--bucles-texto);
+  line-height: 1.6;
+}
+
+body,
+button,
+input,
+select {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+  width: min(100% - 32px, 1180px);
+  margin: 0 auto;
+  padding: 20px 0 60px;
+}
+
+button,
+select,
+input {
+  font-size: 1rem;
+}
+
+button,
+a.btn {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+.muted,
+.help-text {
+  color: var(--bucles-texto-suave);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--bucles-violeta-oscuro);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.status-message,
+.estado-unidad {
+  margin-top: 12px;
+  font-weight: 600;
+  color: var(--bucles-texto-suave);
+}
+
+/* ---------------------------------------------------------
+   2. ENCABEZADO Y PRESENTACIÓN
+   --------------------------------------------------------- */
+
+.site-header {
+  position: relative;
+  z-index: 10;
+}
+
+.mission-hero {
+  max-width: var(--bucles-ancho);
+  margin: 4px auto 24px;
+  padding: 30px 36px;
+  border-radius: 20px;
+  background: linear-gradient(115deg, #6d559f 0%, #438f9c 56%, #00a99d 100%);
+  color: #ffffff;
+  box-shadow: var(--bucles-sombra);
+}
+
+.mission-hero .hero-content {
+  max-width: 850px;
+}
+
+.mission-hero .eyebrow {
+  color: #ffffff;
+  opacity: 0.95;
+}
+
+.mission-hero h2 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: clamp(1.8rem, 4vw, 2.65rem);
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.mission-hero p {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.08rem;
+}
+
+/* ---------------------------------------------------------
+   3. CONTENEDOR GENERAL
+   --------------------------------------------------------- */
+
+.layout-game {
+  display: block;
+  width: 100%;
+  max-width: var(--bucles-ancho);
+  margin: 0 auto;
+}
+
+.layout-game.solo-unidad {
+  display: block;
+  max-width: var(--bucles-ancho);
+}
+
+.panel-ingreso,
+.panel-unidad {
+  width: 100%;
+  min-width: 0;
+  margin: 0 auto;
+  padding: clamp(20px, 3vw, 34px);
+  background: #ffffff;
+  border: 1px solid var(--bucles-borde);
+  border-top: 5px solid var(--bucles-violeta);
+  border-radius: 20px;
+  box-shadow: var(--bucles-sombra);
+}
+
+.panel-ingreso {
+  max-width: 650px;
+}
+
+.panel-ingreso h2 {
+  margin-top: 0;
+  font-size: 1.7rem;
+}
+
+.panel-ingreso .help-text {
+  margin-bottom: 24px;
+}
+
+.panel-ingreso .form-row {
+  margin: 18px 0;
+}
+
+.panel-ingreso .form-row label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 700;
+}
+
+.panel-ingreso select {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  color: var(--bucles-texto);
+  background: #ffffff;
+  border: 2px solid var(--bucles-borde);
+  border-radius: 10px;
+}
+
+#btnEntrar {
+  display: block;
+  width: 100%;
+  min-height: 50px;
+  margin-top: 24px;
+  padding: 12px 18px;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--bucles-turquesa);
+  border: 0;
+  border-radius: 10px;
+}
+
+#btnEntrar:not(:disabled):hover {
+  background: var(--bucles-turquesa-oscuro);
+}
+
+.ayuda-ingreso {
+  margin-top: 24px;
+  padding: 14px 18px;
+  background: var(--bucles-azul-claro);
+  border-radius: 12px;
+}
+
+.ayuda-ingreso p {
+  margin: 0;
+}
+
+/* ---------------------------------------------------------
+   4. IDENTIFICACIÓN DEL ESTUDIANTE
+   --------------------------------------------------------- */
+
+.unit-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid var(--bucles-borde);
+}
+
+.unit-top h2 {
+  margin: 0;
+  font-size: 1.45rem;
+  line-height: 1.3;
+}
+
+.unit-top p {
+  margin: 4px 0;
+}
+
+.estado-unidad {
+  padding: 12px 16px;
+  background: #f2f4f7;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+/* ---------------------------------------------------------
+   5. NAVEGACIÓN POR ETAPAS
+   --------------------------------------------------------- */
+
+.navegacion-unidad {
+  margin: 25px 0 32px;
+}
+
+.pasos-unidad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pasos-unidad li {
+  min-width: 0;
+}
+
+.paso-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: 100%;
+  min-height: 88px;
+  padding: 12px 8px;
+
+  color: var(--bucles-texto-suave);
+  background: #f3f4f8;
+  border: 2px solid transparent;
+  border-radius: 14px;
+
+  font-size: 0.96rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.3;
+
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.paso-numero {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background: #e2e3eb;
+  color: var(--bucles-texto);
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.paso-nav:hover {
+  background: var(--bucles-violeta-claro);
+}
+
+.paso-nav.is-active,
+.paso-nav[aria-current="step"] {
+  background: var(--bucles-violeta-claro);
+  color: var(--bucles-violeta-oscuro);
+  border-color: var(--bucles-violeta);
+}
+
+.paso-nav.is-active .paso-numero,
+.paso-nav[aria-current="step"] .paso-numero {
+  background: var(--bucles-violeta);
+  color: #ffffff;
+}
+
+/* ---------------------------------------------------------
+   6. ETAPAS Y CONSIGNAS
+   --------------------------------------------------------- */
+
+.etapa {
+  width: 100%;
+  min-width: 0;
+  animation: aparecerEtapa 0.2s ease-out;
+}
+
+@keyframes aparecerEtapa {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.etapa > h2 {
+  margin: 0 0 20px;
+  color: var(--bucles-texto);
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  line-height: 1.25;
+}
+
+.etapa h3 {
+  margin: 0 0 12px;
+  color: var(--bucles-texto);
+  font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+  line-height: 1.35;
+}
+
+.etapa h4 {
+  margin: 0 0 12px;
+  font-size: 1.08rem;
+}
+
+.etapa p {
+  line-height: 1.65;
+}
+
+.instruccion-principal {
+  margin: 18px 0 25px;
+  padding: 20px 24px;
+  background: var(--bucles-turquesa-claro);
+  border-left: 6px solid var(--bucles-turquesa);
+  border-radius: 14px;
+}
+
+.instruccion-principal p {
+  margin: 8px 0 0;
+  font-size: 1.12rem;
+  font-weight: 600;
+}
+
+.etiqueta-mision {
+  display: inline-block;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--bucles-turquesa-oscuro);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.actividad-contenido {
+  margin: 22px 0;
+  padding: clamp(18px, 3vw, 26px);
+  background: #ffffff;
+  border: 1px solid var(--bucles-borde);
+  border-radius: var(--bucles-radio);
+}
+
+.actividad-contenido > p {
+  margin: 8px 0 18px;
+}
+
+.pregunta-destacada {
+  padding: 18px 20px;
+  color: var(--bucles-violeta-oscuro);
+  background: var(--bucles-violeta-claro);
+  border-radius: 12px;
+  font-size: 1.18rem;
+  font-weight: 700;
+}
+
+.idea-clave {
+  margin: 20px 0;
+  padding: 18px 22px;
+  color: #175838;
+  background: var(--bucles-verde-claro);
+  border-left: 5px solid var(--bucles-verde);
+  border-radius: 12px;
+  font-size: 1.09rem;
+  font-weight: 700;
+}
+
+.descubrimiento-revelado {
+  margin: 25px 0;
+  padding: clamp(18px, 3vw, 26px);
+  background: #f8f5ff;
+  border: 2px solid #c5b5e1;
+  border-radius: 16px;
+}
+
+/* ---------------------------------------------------------
+   7. BLOQUES DE CÓDIGO LEGIBLES
+   --------------------------------------------------------- */
+
+.codigo-grande {
+  width: 100%;
+  min-width: 0;
+  margin: 20px 0;
+  overflow: hidden;
+  background: var(--bucles-codigo-fondo);
+  border: 1px solid #393143;
+  border-radius: 14px;
+}
+
+.codigo-encabezado {
+  padding: 10px 18px;
+  color: #ffffff;
+  background: #383242;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.codigo-grande pre {
+  width: 100%;
+  margin: 0;
+  padding: 22px 24px;
+
+  overflow-x: auto;
+  background: var(--bucles-codigo-fondo);
+  color: var(--bucles-codigo-texto);
+
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: 0;
+
+  white-space: pre;
+  overflow-wrap: normal;
+  tab-size: 4;
+}
+
+.codigo-grande code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  border: none;
+  font: inherit;
+  white-space: inherit;
+}
+
+.etapa p code,
+.etapa li code,
+.etapa label code,
+.idea-clave code {
+  padding: 2px 5px;
+  background: #ece8f5;
+  color: #4b297d;
+  border-radius: 5px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.98em;
+  font-weight: 700;
+}
+
+pre {
+  font-family: Consolas, "Courier New", monospace;
+}
+
+/* ---------------------------------------------------------
+   8. IMÁGENES PEDAGÓGICAS
+   --------------------------------------------------------- */
+
+.imagen-didactica {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+  min-width: 0;
+  margin: 22px auto;
+  padding: 12px;
+
+  background: #ffffff;
+  border: 1px solid var(--bucles-borde);
+  border-radius: 16px;
+}
+
+.imagen-didactica img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 780px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.imagen-didactica figcaption {
+  width: 100%;
+  padding: 6px 10px;
+  color: var(--bucles-texto-suave);
+  font-size: 0.92rem;
+  text-align: center;
+}
+
+.imagen-apoyo {
+  background: #f7f4ff;
+}
+
+.biblioteca-apoyo,
+.ayuda-visual {
+  margin: 22px 0;
+  padding: 18px 20px;
+  border: 1px solid var(--bucles-borde);
+  border-radius: 14px;
+  background: #f7f7fb;
+}
+
+.biblioteca-apoyo summary,
+.ayuda-visual summary {
+  cursor: pointer;
+  color: var(--bucles-violeta-oscuro);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.biblioteca-apoyo[open],
+.ayuda-visual[open] {
+  background: #ffffff;
+  border-color: #bda8db;
+}
+
+.apoyo-avanzado {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--bucles-borde);
+}
+
+/* ---------------------------------------------------------
+   9. RESPUESTAS Y OPCIONES
+   --------------------------------------------------------- */
+
+fieldset {
+  min-width: 0;
+  margin: 20px 0;
+  padding: 18px;
+  border: 1px solid var(--bucles-borde);
+  border-radius: 14px;
+}
+
+legend {
+  max-width: 100%;
+  padding: 0 8px;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--bucles-texto);
+}
+
+.opciones-grandes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #ffffff;
+}
+
+.opcion-respuesta {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 16px 18px;
+
+  background: #f7f8fb;
+  border: 2px solid #e4e5ed;
+  border-radius: 12px;
+
+  color: var(--bucles-texto);
+  font-size: 1.04rem;
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.opcion-respuesta:hover {
+  background: #edf5ff;
+  border-color: #a8c7ed;
+}
+
+.opcion-respuesta:has(input:checked) {
+  background: #e6f6f3;
+  border-color: var(--bucles-turquesa);
+}
+
+.opcion-respuesta input[type="radio"] {
+  flex: 0 0 auto;
+  width: 21px;
+  height: 21px;
+  margin: 2px 0 0;
+  accent-color: var(--bucles-turquesa);
+}
+
+.feedback {
+  min-height: 24px;
+  margin: 12px 0 0;
+  padding: 10px 0;
+  color: var(--bucles-texto);
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.feedback:empty {
+  display: none;
+}
+
+/* ---------------------------------------------------------
+   10. BOTONES
+   --------------------------------------------------------- */
+
+.btn-accion,
+.btn-siguiente,
+.btn-anterior,
+.btn-secondary,
+.btn-edublocks,
+.button-row button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 46px;
+  padding: 11px 19px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  text-decoration: none;
+
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    transform 0.15s;
+}
+
+.btn-accion,
+.btn-siguiente {
+  color: #ffffff;
+  background: var(--bucles-turquesa);
+}
+
+.btn-accion:hover:not(:disabled),
+.btn-siguiente:hover:not(:disabled) {
+  background: var(--bucles-turquesa-oscuro);
+}
+
+.btn-secondary,
+.btn-anterior {
+  background: #f0eef6;
+  color: var(--bucles-violeta-oscuro);
+  border-color: #d2c8e5;
+}
+
+.btn-secondary:hover:not(:disabled),
+.btn-anterior:hover:not(:disabled) {
+  background: #e6def3;
+}
+
+.btn-edublocks {
+  display: inline-flex;
+  margin: 12px 0;
+  color: #ffffff !important;
+  background: var(--bucles-violeta);
+}
+
+.btn-edublocks:hover {
+  background: var(--bucles-violeta-oscuro);
+  color: #ffffff !important;
+}
+
+.navegacion-etapa {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--bucles-borde);
+}
+
+.navegacion-etapa > span:empty {
+  flex: 1;
+}
+
+.button-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #2563eb !important;
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------
+   11. SIMULADOR INTERACTIVO
+   --------------------------------------------------------- */
+
+.simulador-interactivo {
+  margin: 20px 0;
+  padding: clamp(16px, 3vw, 24px);
+  background: #edf8f7;
+  border: 2px solid #b3ded9;
+  border-radius: 16px;
+}
+
+.simulador-config {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.simulador-config label {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.simulador-config input[type="number"] {
+  width: 100px;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 2px solid #9fc9c4;
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--bucles-texto);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.simulador-datos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.simulador-dato {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  min-height: 105px;
+  padding: 14px 10px;
+
+  background: #ffffff;
+  border: 1px solid #c5dedb;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.simulador-dato span {
+  color: var(--bucles-texto-suave);
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.simulador-dato strong {
+  margin-top: 8px;
+  color: var(--bucles-violeta-oscuro);
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
+.consola-salida {
+  margin: 20px 0;
+  padding: 16px 20px;
+  background: #171a24;
+  color: #ffffff;
+  border-radius: 12px;
+}
+
+.consola-salida h4 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.consola-salida pre,
+pre.consola-salida {
+  margin: 0;
+  padding: 8px 0;
+  background: transparent;
+  color: #ffffff;
+
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 20px;
+  line-height: 1.65;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+pre.consola-salida {
+  padding: 16px 20px;
+  background: #171a24;
+}
+
+.simulador-interactivo .button-row button {
+  flex: 1 1 190px;
+}
+
+#btnSimAvanzar {
+  background: var(--bucles-turquesa);
+  color: #ffffff;
+}
+
+#btnSimRetroceder,
+#btnSimReiniciar {
+  background: #ffffff;
+  color: var(--bucles-violeta-oscuro);
+  border-color: #c1b5d8;
+}
+
+/* ---------------------------------------------------------
+   12. TALLER EN DUPLAS
+   --------------------------------------------------------- */
+
+.roles-dupla {
+  margin: 20px 0;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: var(--bucles-azul-claro);
+  border-left: 5px solid var(--bucles-azul);
+}
+
+.roles-dupla p {
+  margin: 4px 0;
+}
+
+.recorridos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 22px 0;
+}
+
+.recorrido-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+
+  width: 100%;
+  min-height: 170px;
+  padding: 20px;
+
+  background: #ffffff;
+  color: var(--bucles-texto);
+  border: 2px solid var(--bucles-borde);
+  border-radius: 16px;
+
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.recorrido-btn strong {
+  font-size: 1.08rem;
+  line-height: 1.35;
+}
+
+.recorrido-btn small {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--bucles-texto-suave);
+}
+
+.recorrido-icono {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f1edf8;
+  color: var(--bucles-violeta-oscuro);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.recorrido-btn[data-recorrido="inicial"] {
+  border-top: 5px solid var(--bucles-azul);
+}
+
+.recorrido-btn[data-recorrido="guiado"] {
+  border-top: 5px solid var(--bucles-turquesa);
+}
+
+.recorrido-btn[data-recorrido="desafio"] {
+  border-top: 5px solid var(--bucles-violeta);
+}
+
+.recorrido-btn[data-recorrido="inicial"][aria-pressed="true"] {
+  background: var(--bucles-azul-claro);
+  border-color: var(--bucles-azul);
+}
+
+.recorrido-btn[data-recorrido="guiado"][aria-pressed="true"] {
+  background: var(--bucles-turquesa-claro);
+  border-color: var(--bucles-turquesa);
+}
+
+.recorrido-btn[data-recorrido="desafio"][aria-pressed="true"] {
+  background: var(--bucles-violeta-claro);
+  border-color: var(--bucles-violeta);
+}
+
+.recorrido-contenido {
+  min-height: 100px;
+  margin: 22px 0;
+  padding: clamp(18px, 3vw, 26px);
+
+  background: #f7f8fb;
+  border: 1px solid var(--bucles-borde);
+  border-radius: 16px;
+}
+
+.recorrido-contenido > h3 {
+  margin-top: 0;
+}
+
+.recorrido-contenido ol,
+.practica-recorrido ol {
+  padding-left: 26px;
+}
+
+.recorrido-contenido li,
+.practica-recorrido li {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.practica-recorrido {
+  min-height: 80px;
+}
+
+.practica-recorrido > label {
+  display: block;
+  margin: 14px 0;
+  font-weight: 700;
+}
+
+.practica-recorrido select,
+.practica-recorrido input[type="number"] {
+  min-height: 48px;
+  max-width: 100%;
+  margin: 10px 12px 10px 0;
+  padding: 8px 12px;
+  border: 2px solid var(--bucles-borde);
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--bucles-texto);
+  font-size: 1.08rem;
+}
+
+.practica-recorrido select {
+  min-width: 170px;
+}
+
+.practica-recorrido input[type="number"] {
+  width: 130px;
+}
+
+.practica-recorrido fieldset label {
+  display: block;
+  margin: 12px 0;
+  cursor: pointer;
+}
+
+.practica-recorrido input[type="radio"] {
+  margin-right: 8px;
+  accent-color: var(--bucles-turquesa);
+}
+
+.pistas-recorrido {
+  margin: 18px 0;
+}
+
+#textoPistaRecorrido:not(:empty) {
+  padding: 16px 20px;
+  background: #fff2d7;
+  border-left: 5px solid var(--bucles-naranja);
+  border-radius: 12px;
+}
+
+.edublocks-card {
+  margin: 28px 0;
+  padding: clamp(20px, 3vw, 28px);
+  background: #f1edf9;
+  border: 2px solid #d0c1e8;
+  border-radius: 16px;
+}
+
+.edublocks-card h3 {
+  margin-top: 0;
+  color: var(--bucles-violeta-oscuro);
+}
+
+.edublocks-card .muted {
+  font-size: 0.95rem;
+}
+
+.check-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 15px 0;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.check-label input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 21px;
+  height: 21px;
+  margin: 3px 0 0;
+  accent-color: var(--bucles-turquesa);
+}
+
+/* ---------------------------------------------------------
+   13. COMPROBACIÓN INDIVIDUAL
+   --------------------------------------------------------- */
+
+.pregunta-evaluacion {
+  margin: 24px 0;
+  padding: clamp(18px, 3vw, 25px);
+  border: 2px solid var(--bucles-borde);
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.pregunta-evaluacion legend {
+  padding: 0 10px;
+  color: var(--bucles-violeta-oscuro);
+  font-size: 1.2rem;
+}
+
+.pregunta-evaluacion > p {
+  margin: 10px 0 18px;
+  font-size: 1.06rem;
+  font-weight: 600;
+}
+
+.pregunta-evaluacion .opcion-respuesta {
+  margin: 10px 0;
+}
+
+.confirmacion-entrega {
+  margin-top: 30px;
+  padding: 20px 24px;
+  background: var(--bucles-turquesa-claro);
+  border-radius: 14px;
+}
+
+.confirmacion-entrega .muted {
+  font-size: 0.94rem;
+}
+
+.resultado {
+  margin: 22px 0;
+  padding: 18px 20px;
+  background: #f2f3f7;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.resultado:empty {
+  display: none;
+}
+
+.resultado.ok {
+  background: var(--bucles-verde-claro);
+  color: #115b36;
+  border-left: 5px solid var(--bucles-verde);
+}
+
+.resultado.error {
+  background: var(--bucles-rojo-claro);
+  color: #8c2036;
+  border-left: 5px solid var(--bucles-rojo);
+}
+
+/* ---------------------------------------------------------
+   14. PLAN B DESENCHUFADO
+   --------------------------------------------------------- */
+
+.herramientas-unidad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 35px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--bucles-borde);
+}
+
+.plan-b {
+  margin: 28px 0;
+  padding: clamp(20px, 3vw, 28px);
+  background: #ffffff;
+  border: 2px dashed #8494a5;
+  border-radius: 16px;
+}
+
+.plan-b h2 {
+  margin-top: 0;
+}
+
+.plan-b li {
+  margin: 12px 0;
+}
+
+/* ---------------------------------------------------------
+   15. RESPONSIVE: COMPUTADORAS Y TABLETAS
+   --------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  main {
+    width: min(100% - 24px, 1180px);
+  }
+
+  .pasos-unidad {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .paso-nav {
+    font-size: 0.86rem;
+    padding: 10px 5px;
+  }
+
+  .recorridos {
+    gap: 10px;
+  }
+
+  .recorrido-btn {
+    min-height: 165px;
+    padding: 15px;
+  }
+
+  .recorrido-btn strong {
+    font-size: 0.98rem;
+  }
+
+  .simulador-datos {
+    gap: 8px;
+  }
+}
+
+/* ---------------------------------------------------------
+   16. PANTALLAS PEQUEÑAS
+   --------------------------------------------------------- */
+
+@media (max-width: 650px) {
+  main {
+    width: calc(100% - 20px);
+    padding-top: 12px;
+  }
+
+  .mission-hero {
+    padding: 22px;
+    margin-bottom: 16px;
+  }
+
+  .mission-hero h2 {
+    font-size: 1.7rem;
+  }
+
+  .mission-hero p {
+    font-size: 1rem;
+  }
+
+  .panel-ingreso,
+  .panel-unidad {
+    padding: 17px;
+    border-radius: 14px;
+  }
+
+  .unit-top {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pasos-unidad {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .paso-nav {
+    min-height: 65px;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 10px 12px;
+    font-size: 0.89rem;
+  }
+
+  .paso-numero {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+  }
+
+  .actividad-contenido {
+    padding: 16px;
+  }
+
+  .instruccion-principal {
+    padding: 16px;
+  }
+
+  .codigo-grande pre {
+    padding: 16px;
+    font-size: 18px;
+  }
+
+  .simulador-datos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .simulador-dato {
+    padding: 10px 5px;
+    min-height: 90px;
+  }
+
+  .simulador-dato span {
+    font-size: 0.8rem;
+  }
+
+  .simulador-dato strong {
+    font-size: 1.5rem;
+  }
+
+  .recorridos {
+    grid-template-columns: 1fr;
+  }
+
+  .recorrido-btn {
+    min-height: auto;
+    padding: 14px 18px;
+    gap: 7px;
+  }
+
+  .recorrido-icono {
+    width: 34px;
+    height: 34px;
+  }
+
+  .opcion-respuesta {
+    padding: 13px 14px;
+    font-size: 0.98rem;
+  }
+
+  .navegacion-etapa {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .navegacion-etapa button {
+    width: 100%;
+  }
+
+  .button-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .button-row button {
+    width: 100%;
+  }
+
+  .imagen-didactica {
+    padding: 7px;
+  }
+
+  .herramientas-unidad {
+    flex-direction: column;
+  }
+
+  .herramientas-unidad button {
+    width: 100%;
+  }
+}
+
+/* ---------------------------------------------------------
+   17. ACCESIBILIDAD
+   --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .paso-nav.is-active,
+  .recorrido-btn[aria-pressed="true"],
+  .opcion-respuesta:has(input:checked) {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+
+/* ---------------------------------------------------------
+   18. IMPRESIÓN / PLAN B
+   --------------------------------------------------------- */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt;
+  }
+
+  .site-header,
+  .mission-hero,
+  footer,
+  .panel-ingreso,
+  .unit-top,
+  .estado-unidad,
+  .navegacion-unidad,
+  .etapa,
+  .herramientas-unidad,
+  .btn-accion,
+  .btn-siguiente,
+  .btn-anterior,
+  .btn-secondary {
+    display: none !important;
+  }
+
+  main,
+  .layout-game,
+  .layout-game.solo-unidad,
+  .panel-unidad {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+
+  .panel-unidad.is-hidden {
+    display: block !important;
+  }
+
+  .plan-b,
+  .plan-b.is-hidden {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    color: #000000 !important;
+    background: #ffffff !important;
+  }
+
+  .plan-b h2 {
+    font-size: 18pt;
+    margin: 0 0 12pt;
+  }
+
+  .plan-b li {
+    margin: 14pt 0;
+    line-height: 1.5;
+  }
+
+  .plan-b code {
+    font-family: "Courier New", monospace;
+  }
+}
